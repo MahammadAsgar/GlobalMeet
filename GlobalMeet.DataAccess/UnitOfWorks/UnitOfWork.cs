@@ -3,18 +3,13 @@ using GlobalMeet.DataAccess.Entities.Common;
 using GlobalMeet.DataAccess.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GlobalMeet.DataAccess.UnitOfWorks
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly GlobalMeetDbContext _globalMeetDbContext ;
+        private readonly GlobalMeetDbContext _globalMeetDbContext;
         private bool _isDisposed = false;
         private readonly Dictionary<Type, object> _repositories;
         private readonly IHttpContextAccessor _httpContextAccessor;
@@ -46,18 +41,17 @@ namespace GlobalMeet.DataAccess.UnitOfWorks
 
             foreach (var entityEntry in datas)
             {
-                //if (entityEntry.State == EntityState.Added)
-                //{
-                //    entityEntry.Entity.RegUserId = 1;
-                //    entityEntry.Entity.RegDate = DateTime.Now;
-                //}
-                //else if (entityEntry.State == EntityState.Modified)
-                //{
-                //    entityEntry.Entity.EditUserId = 1;
-                //    entityEntry.Entity.EditDate = DateTime.Now;
-                //}
+                if (entityEntry.State == EntityState.Added)
+                {
+                    entityEntry.Entity.RegUserId = 1;
+                    entityEntry.Entity.RegDate = DateTime.Now;
+                }
+                else if (entityEntry.State == EntityState.Modified)
+                {
+                    entityEntry.Entity.EditUserId = 1;
+                    entityEntry.Entity.EditDate = DateTime.Now;
+                }
             }
-
             _globalMeetDbContext.SaveChanges();
         }
 
@@ -89,7 +83,5 @@ namespace GlobalMeet.DataAccess.UnitOfWorks
 
             return repository;
         }
-
-      
     }
 }

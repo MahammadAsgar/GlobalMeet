@@ -1,5 +1,5 @@
 ﻿using GlobalMeet.DataAccess.Entities.Common;
-
+using GlobalMeet.DataAccess.Repositories;
 
 namespace GlobalMeet.DataAccess.UnitOfWorks
 {

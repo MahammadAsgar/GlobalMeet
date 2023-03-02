@@ -1,8 +1,8 @@
-﻿using F= GlobalMeet.DataAccess.Entities.Main; 
+﻿using GlobalMeet.DataAccess.Entities.Main;
 using GlobalMeet.DataAccess.Entities.User;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using GlobalMeet.DataAccess.Entities.Main;
+using F = GlobalMeet.DataAccess.Entities.Main;
 
 namespace GlobalMeet.DataAccess.Context
 {
@@ -17,5 +17,8 @@ namespace GlobalMeet.DataAccess.Context
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<F.File> Files { get; set; }
         public DbSet<BlogFile> BlogFiles { get; set; }
+        public DbSet<MeetDate> MeetDates { get; set; }
+        public DbSet<Status> Statuses { get; set; }
+        public DbSet<Profession> Professions { get; set; }
     }
 }
