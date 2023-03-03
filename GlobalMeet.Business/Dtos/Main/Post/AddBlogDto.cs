@@ -1,10 +1,4 @@
-﻿using GlobalMeet.DataAccess.Entities.Main;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace GlobalMeet.Business.Dtos.Main.Post
 {

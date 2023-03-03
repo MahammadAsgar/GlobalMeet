@@ -12,10 +12,10 @@ namespace GlobalMeet.DataAccess.Entities.Main
         public Status Status { get; set; }
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; }
-
+        public bool IsActive { get; set; }
     }
-    public class Status:EntityBase
+    public class Status : EntityBase
     {
-       public string StatusTitle { get; set; }    
+        public string StatusTitle { get; set; }
     }
 }

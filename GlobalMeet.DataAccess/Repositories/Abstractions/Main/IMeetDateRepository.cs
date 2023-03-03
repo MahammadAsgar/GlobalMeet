@@ -10,5 +10,6 @@ namespace GlobalMeet.DataAccess.Repositories.Abstractions.Main
         Task<IEnumerable<MeetDate>> GetMeetDatesByUserStatus(int userId, int statusId);
         Task<IEnumerable<MeetDate>> GetMeetDatesFree(int userId, bool isFree);
         Task<IEnumerable<MeetDate>> GetMeetDates();
+        Task<MeetDate> GetLastMeet();
     }
 }

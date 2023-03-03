@@ -3,7 +3,7 @@
 
 namespace GlobalMeet.DataAccess.Entities.Main
 {
-    public class Profession:EntityBase
+    public class Profession : EntityBase
     {
         public string ProfessionTitle { get; set; }
     }

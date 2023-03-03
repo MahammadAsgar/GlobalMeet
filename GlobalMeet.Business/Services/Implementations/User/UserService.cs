@@ -6,6 +6,7 @@ using GlobalMeet.Business.Results;
 using GlobalMeet.Business.Services.Abstractions.Mail;
 using GlobalMeet.Business.Services.Abstractions.User;
 using GlobalMeet.DataAccess.Context;
+using GlobalMeet.DataAccess.Entities.Main;
 using GlobalMeet.DataAccess.Entities.User;
 using GlobalMeet.DataAccess.Models;
 using GlobalMeet.DataAccess.UnitOfWorks;
@@ -254,6 +255,8 @@ namespace GlobalMeet.Business.Services.Implementations.User
             return false;
         }
 
+       
+
         public async Task<bool> VerifyConfirmAsync(string userName, string confirmToken)
         {
             var user = await _userManager.FindByNameAsync(userName);
@@ -279,5 +282,52 @@ namespace GlobalMeet.Business.Services.Implementations.User
             }
             return false;
         }
+
+
+        //Admin
+        public async Task<ServiceResult> UpdateUser(int userId, UpdateUserDto updateUserDto)
+        {
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            if (user != null)
+            {
+                if (updateUserDto.AboutId.HasValue)
+                {
+                    user.AboutId = updateUserDto.AboutId.Value;
+                }
+
+                if (updateUserDto.Experience.HasValue)
+                {
+                    user.Experience = updateUserDto.Experience.Value;
+                }
+
+                if (updateUserDto.ConsultationCost.HasValue)
+                {
+                    user.ConsultationCost = updateUserDto.ConsultationCost.Value;
+                }
+
+                //if (updateUserDto.MeetDateIds.Any())
+                //{
+                //    user.MeetDates = (await _unitOfWork.Repository<MeetDate>().GetAllAsync(x => updateUserDto.MeetDateIds.Contains(x.Id))).ToList();
+                //}
+
+                if (updateUserDto.ProfessionIds.Any())
+                {
+                    user.Professions = (await _unitOfWork.Repository<Profession>().GetAllAsync(x => updateUserDto.ProfessionIds.Contains(x.Id))).ToList();
+                }
+
+                var result = await _userManager.UpdateAsync(user);
+                _unitOfWork.Commit();
+                if (result.Succeeded)
+                {
+                    return new ServiceResult(true);
+                }
+            }
+            return new ServiceResult(false);
+        }
+
+
+        //User
+
+
     }
 }

@@ -17,6 +17,12 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
                 .Include(x => x.Status)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
+        public async Task<MeetDate> GetLastMeet()
+        {
+            return await GetAsQueryable()
+                .OrderBy(x => x.Id)
+                .LastOrDefaultAsync();
+        }
         public async Task<IEnumerable<MeetDate>> GetMeetDates()
         {
             return await GetAsQueryable()

@@ -6,6 +6,7 @@ namespace GlobalMeet.Business.Services.Abstractions.User
     public interface IUserService
     {
         Task<ServiceResult> GetUser(int userId);
+        Task<ServiceResult> UpdateUser(int userId, UpdateUserDto updateUserDto);
         Task<ServiceResult> Register(RegisterUserDto registerUser);
         Task<ServiceResult> LogIn(LoginUserDto loginUser);
         Task<ServiceResult> LogOut();

@@ -1,11 +1,15 @@
 ﻿using AutoMapper;
 using GlobalMeet.Business.Dtos.Main.Get;
 using GlobalMeet.Business.Dtos.Main.Post;
+using GlobalMeet.Business.Dtos.User.Post;
 using GlobalMeet.Business.Results;
 using GlobalMeet.Business.Services.Abstractions.Main;
 using GlobalMeet.DataAccess.Entities.Main;
+using GlobalMeet.DataAccess.Entities.User;
 using GlobalMeet.DataAccess.Repositories.Abstractions.Main;
 using GlobalMeet.DataAccess.UnitOfWorks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace GlobalMeet.Business.Services.Implementations.Main
 {
@@ -14,28 +18,45 @@ namespace GlobalMeet.Business.Services.Implementations.Main
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IBlogRepository _blogRepository;
-        public BlogService(IUnitOfWork unitOfWork, IMapper mapper, IBlogRepository blogRepository)
+        private readonly UserManager<AppUser> _userManager;
+
+        public BlogService(IUnitOfWork unitOfWork, IMapper mapper, IBlogRepository blogRepository, UserManager<AppUser> userManager)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _blogRepository = blogRepository;
+            _userManager = userManager;
         }
-        public async Task<ServiceResult> AddBlog(AddBlogDto blogDto)
+        public async Task<ServiceResult> AddBlog(AddBlogDto blogDto, int userId)
         {
             var blog = _mapper.Map<Blog>(blogDto);
             await _unitOfWork.Repository<Blog>().AddAsync(blog);
             _unitOfWork.Commit();
-            return new ServiceResult(true);
+            var newBlog = await _blogRepository.GetBlog(blog.Id);
+            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            user.Blogs.Append(newBlog);
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                return new ServiceResult(true);
+            }
+            return new ServiceResult(false);
         }
 
-        public async Task<ServiceResult> DeleteBlog(AddBlogDto blogDto, int id)
+        public async Task<ServiceResult> DeleteBlog(AddBlogDto blogDto, int id, int userId)
         {
             var blog = await _blogRepository.GetBlog(id);
             if (blog != null)
             {
-                _unitOfWork.Repository<Blog>().Delete(blog);
-                _unitOfWork.Commit();
-                return new ServiceResult(true);
+                var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
+                user.Blogs.Remove(blog);
+                var result = await _userManager.UpdateAsync(user);
+                if (result.Succeeded)
+                {
+                    _unitOfWork.Repository<Blog>().Delete(blog);
+                    _unitOfWork.Commit();
+                    return new ServiceResult(true);
+                }
             }
             return new ServiceResult(false);
         }

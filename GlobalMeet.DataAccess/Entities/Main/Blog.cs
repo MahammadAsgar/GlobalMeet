@@ -10,6 +10,6 @@ namespace GlobalMeet.DataAccess.Entities.Main
         public IEnumerable<BlogFile> BlogFiles { get; set; }
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; }
-       // public IEnumerable<Tag> Tags { get; set; }
+        // public IEnumerable<Tag> Tags { get; set; }
     }
 }

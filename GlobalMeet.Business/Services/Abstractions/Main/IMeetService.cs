@@ -1,19 +1,13 @@
 ﻿using GlobalMeet.Business.Dtos.Main.Post;
 using GlobalMeet.Business.Results;
-using GlobalMeet.DataAccess.Entities.Main;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GlobalMeet.Business.Services.Abstractions.Main
 {
     public interface IMeetService
     {
-        Task<ServiceResult> AddMeet(AddMeetDateDto meetDateDto);
-        Task<ServiceResult> UpdateMeet(AddMeetDateDto meetDateDto, int id);
-        Task<ServiceResult> DeleteMeet(int id);
+        Task<ServiceResult> AddMeet(AddMeetDateDto meetDateDto, int userId);
+        Task<ServiceResult> UpdateMeet(AddMeetDateDto meetDateDto, int id, int userId);
+        Task<ServiceResult> DeleteMeet(int id, int userId);
         Task<ServiceResult> GetMeet(int id);
         Task<ServiceResult> GetMeets();
         Task<ServiceResult> GetMeetDatesByStatus(int status);
