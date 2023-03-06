@@ -22,7 +22,7 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
         {
             return await GetAsQueryable()
                 .Include(x => x.AboutFiles)
-                .Where(x => x.AppUserId == userId)
+              //  .Where(x => x.AppUserId == userId)
                 .FirstOrDefaultAsync();
         }
 

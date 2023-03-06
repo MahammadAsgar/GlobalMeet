@@ -19,8 +19,8 @@ namespace GlobalMeet.DataAccess.Entities.User
         public ICollection<Profession>? Professions { get; set; }
         public ICollection<Blog>? Blogs { get; set; }
 
-        //user
-        public ICollection<MeetDate>? ReservedMeets { get; set; }
-        public ICollection<MeetDate>? ArchivedMeets { get; set; }
+        ////user
+        //public ICollection<MeetDate>? ReservedMeets { get; set; }
+        // public ICollection<MeetDate>? ArchivedMeets { get; set; }
     }
 }

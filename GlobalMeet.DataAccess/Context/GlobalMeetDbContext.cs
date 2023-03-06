@@ -12,13 +12,15 @@ namespace GlobalMeet.DataAccess.Context
         {
 
         }
+
         public DbSet<About> Abouts { get; set; }
-        public DbSet<Tag> Tags { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<F.File> Files { get; set; }
         public DbSet<BlogFile> BlogFiles { get; set; }
         public DbSet<MeetDate> MeetDates { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Profession> Professions { get; set; }
+        public DbSet<ArchivedMeet> ArchivedMeets { get; set; }
+        public DbSet<Order> Orders { get; set; }
     }
 }

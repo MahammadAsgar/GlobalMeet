@@ -3,12 +3,12 @@ using GlobalMeet.DataAccess.Entities.User;
 
 namespace GlobalMeet.DataAccess.Entities.Main
 {
-    public class Blog : EntityBase
+    public class Order : EntityBase
     {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public IEnumerable<BlogFile> BlogFiles { get; set; }
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; }
+
+        public int MeetDateId { get; set; }
+        public MeetDate MeetDate { get; set; }
     }
 }

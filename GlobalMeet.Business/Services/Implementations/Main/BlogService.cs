@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using GlobalMeet.Business.Dtos.Main.Get;
 using GlobalMeet.Business.Dtos.Main.Post;
-using GlobalMeet.Business.Dtos.User.Post;
 using GlobalMeet.Business.Results;
 using GlobalMeet.Business.Services.Abstractions.Main;
 using GlobalMeet.DataAccess.Entities.Main;
@@ -34,7 +33,7 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             _unitOfWork.Commit();
             var newBlog = await _blogRepository.GetBlog(blog.Id);
             var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
-            user.Blogs.Append(newBlog);
+           // user.Blogs.Append(newBlog);
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
@@ -49,7 +48,7 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             if (blog != null)
             {
                 var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
-                user.Blogs.Remove(blog);
+               // user.Blogs.Remove(blog);
                 var result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {

@@ -6,6 +6,7 @@ using GlobalMeet.DataAccess.Entities.User;
 using GlobalMeet.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
@@ -52,7 +53,7 @@ builder.Services.AddSession(conf =>
 
 });
 #endregion
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddBusinessServices();
 builder.Services.AddDataAccessServices();
 builder.Services.AddInfrastructureServices();
@@ -60,19 +61,81 @@ builder.Services.AddInfrastructureServices();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+#region Swagger Implementation
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "GlobalMeet.WebApi", Version = "v1" });
+
+    //include description from method xml comments
+    var path = Path.Combine(AppContext.BaseDirectory, "GlobalMeet.WebApi.xml");
+    //c.IncludeXmlComments(path);
+
+    //add jwt security bearer
+    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        In = ParameterLocation.Header,
+        Description = "please insert token",
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        BearerFormat = "JWT",
+        Scheme = "bearer"
+    });
+
+    c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                   {
+                       {
+                           new OpenApiSecurityScheme
+                           {
+                               Reference= new OpenApiReference
+                               {
+                                   Type=ReferenceType.SecurityScheme,
+                                   Id="Bearer"
+                               }
+                           },
+                           new string[] { }
+                       }
+                   });
+});
+builder.Services.AddAuthentication();
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("superadmin", policy => policy.RequireRole("superadmin", "admin"));
+    options.AddPolicy("admin", policy => policy.RequireRole("admin"));
+});
+#endregion
+
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GlobalMeet.WebApi v1"));
 }
 
+else
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "GlobalMeet.WebApi v1"));
+
+}
+app.UseStaticFiles();
 app.UseHttpsRedirection();
+app.UseCors();
+app.UseAuthentication();
+app.UseRouting();
 
 app.UseAuthorization();
 
-app.MapControllers();
+app.UseSession();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
 
 app.Run();

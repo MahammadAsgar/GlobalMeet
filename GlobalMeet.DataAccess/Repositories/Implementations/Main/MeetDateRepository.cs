@@ -38,21 +38,21 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
         public async Task<IEnumerable<MeetDate>> GetMeetDatesByUser(int userId)
         {
             return await GetAsQueryable()
-                .Where(x => x.AppUserId == userId)
+              //  .Where(x => x.AppUserId == userId)
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<MeetDate>> GetMeetDatesByUserStatus(int userId, int statusId)
         {
             return await GetAsQueryable()
-                .Where(x => x.AppUserId == userId && x.StatusId == statusId)
+               // .Where(x => x.AppUserId == userId && x.StatusId == statusId)
                 .ToListAsync();
         }
 
         public async Task<IEnumerable<MeetDate>> GetMeetDatesFree(int userId, bool isFree)
         {
             return await GetAsQueryable()
-                 .Where(x => x.AppUserId == userId && x.AppUser.IsFree == isFree)
+               //  .Where(x => x.AppUserId == userId && x.AppUser.IsFree == isFree)
                  .ToListAsync();
         }
     }

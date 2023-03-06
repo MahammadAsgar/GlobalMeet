@@ -120,7 +120,7 @@ namespace GlobalMeet.Business.Services.Implementations.Main
         public async Task<ServiceResult> UpdateMeet(AddMeetDateDto meetDateDto, int id, int userId)
         {
             var meet = await _meetDateRepository.GetMeetDate(id);
-            if (meet!=null)
+            if (meet != null)
             {
                 if (meetDateDto.Day.HasValue)
                 {
@@ -132,8 +132,20 @@ namespace GlobalMeet.Business.Services.Implementations.Main
                     meet.StartDate = meetDateDto.StartDate.Value;
                 }
 
-                id
+                if (meetDateDto.EndDateDate.HasValue)
+                {
+                    meet.EndDateDate = meetDateDto.EndDateDate.Value;
+                }
+
+                if (meetDateDto.StatusId.HasValue)
+                {
+                    meet.StatusId = meetDateDto.StatusId.Value;
+                }
+                _unitOfWork.Repository<MeetDate>().Update(meet);
+                _unitOfWork.Commit();
+                return new ServiceResult(true);
             }
+            return new ServiceResult(false);
         }
 
 
@@ -151,7 +163,7 @@ namespace GlobalMeet.Business.Services.Implementations.Main
                     if (item1.Id == item2)
                     {
                         item1.StatusId = 2;
-                        user.ReservedMeets.Add(item1);
+                       // user.ReservedMeets.Add(item1);
                         _unitOfWork.Repository<MeetDate>().Update(item1);
                         _unitOfWork.Commit();
                     }

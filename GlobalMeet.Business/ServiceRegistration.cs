@@ -1,7 +1,9 @@
 ﻿using GlobalMeet.Business.Mappings;
 using GlobalMeet.Business.Services.Abstractions.Mail;
+using GlobalMeet.Business.Services.Abstractions.Main;
 using GlobalMeet.Business.Services.Abstractions.User;
 using GlobalMeet.Business.Services.Implementations.Mail;
+using GlobalMeet.Business.Services.Implementations.Main;
 using GlobalMeet.Business.Services.Implementations.User;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +16,7 @@ namespace GlobalMeet.Business
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMailService, MailService>();
+            services.AddScoped<IProfessionService, ProfessionService>();
 
             services.AddAutoMapper(cfg =>
             {

@@ -255,7 +255,7 @@ namespace GlobalMeet.Business.Services.Implementations.User
             return false;
         }
 
-       
+
 
         public async Task<bool> VerifyConfirmAsync(string userName, string confirmToken)
         {
@@ -292,7 +292,7 @@ namespace GlobalMeet.Business.Services.Implementations.User
             {
                 if (updateUserDto.AboutId.HasValue)
                 {
-                    user.AboutId = updateUserDto.AboutId.Value;
+                   // user.AboutId = updateUserDto.AboutId.Value;
                 }
 
                 if (updateUserDto.Experience.HasValue)
@@ -312,7 +312,7 @@ namespace GlobalMeet.Business.Services.Implementations.User
 
                 if (updateUserDto.ProfessionIds.Any())
                 {
-                    user.Professions = (await _unitOfWork.Repository<Profession>().GetAllAsync(x => updateUserDto.ProfessionIds.Contains(x.Id))).ToList();
+                    //user.Professions = (await _unitOfWork.Repository<Profession>().GetAllAsync(x => updateUserDto.ProfessionIds.Contains(x.Id))).ToList();
                 }
 
                 var result = await _userManager.UpdateAsync(user);

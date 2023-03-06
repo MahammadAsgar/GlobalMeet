@@ -1,8 +1,4 @@
-﻿
-
-using GlobalMeet.DataAccess.Entities.Main;
-
-namespace GlobalMeet.Business.Dtos.User.Post
+﻿namespace GlobalMeet.Business.Dtos.User.Post
 {
     public class UserReserveMeetDto
     {
