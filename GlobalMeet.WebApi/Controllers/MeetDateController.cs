@@ -1,7 +1,7 @@
 ﻿using GlobalMeet.Business.Dtos.Main.Post;
 using GlobalMeet.Business.Results;
 using GlobalMeet.Business.Services.Abstractions.Main;
-using Microsoft.AspNetCore.Http;
+using GlobalMeet.Business.Services.Abstractions.User;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -12,24 +12,28 @@ namespace GlobalMeet.WebApi.Controllers
     public class MeetDateController : ControllerBase
     {
         private readonly IMeetService _meetService;
-        public MeetDateController(IMeetService meetService)
+        private readonly IUserService _userService;
+        public MeetDateController(IMeetService meetService, IUserService userService)
         {
             _meetService = meetService;
+            _userService = userService;
         }
 
         [HttpPost]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ServiceResult>> AddMeetDate([FromForm] AddMeetDateDto meetDateDto, int userId)
+        public async Task<ActionResult<ServiceResult>> AddMeetDate([FromForm] AddMeetDateDto meetDateDto)
         {
-            var response = await _meetService.AddMeet(meetDateDto, userId);
+            var user = _userService.GetLoggedUser();
+            var response = await _meetService.AddMeet(meetDateDto, (int)user.Data);
             return Ok(response);
         }
 
         [HttpPut]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ServiceResult>> UpdateMeetDate([FromForm] AddMeetDateDto meetDateDto, int id, int userId)
+        public async Task<ActionResult<ServiceResult>> UpdateMeetDate([FromForm] AddMeetDateDto meetDateDto, int id)
         {
-            var response = await _meetService.UpdateMeet(meetDateDto, id, userId);
+            var user = _userService.GetLoggedUser();
+            var response = await _meetService.UpdateMeet(meetDateDto, id, (int)user.Data);
             return Ok(response);
         }
 
@@ -37,7 +41,8 @@ namespace GlobalMeet.WebApi.Controllers
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> DeleteMeetDate(int id, int userId)
         {
-            var response = await _meetService.DeleteMeet(id, userId);
+            var user = _userService.GetLoggedUser();
+            var response = await _meetService.DeleteMeet(id, (int)user.Data);
             return Ok(response);
         }
 
@@ -57,7 +62,25 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-       
+        [HttpGet]
+        [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ServiceResult>> GetMeetDatesByStatus(int statusId)
+        {
+            var response = await _meetService.GetMeetDatesByStatus(statusId);
+            return Ok(response);
+        }
+
+
+        [HttpGet]
+        [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ServiceResult>> GetMeetDatesByUser()
+        {
+            var user = _userService.GetLoggedUser();
+            var response = await _meetService.GetMeetDatesByUser((int)user.Data);
+            return Ok(response);
+        }
+
+
 
 
         /*ask<ServiceResult> AddMeet(AddMeetDateDto meetDateDto, int userId);

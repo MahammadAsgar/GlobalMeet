@@ -1,11 +1,64 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using GlobalMeet.Business.Dtos.Main.Post;
+using GlobalMeet.Business.Results;
+using GlobalMeet.Business.Services.Abstractions.Main;
+using GlobalMeet.Business.Services.Abstractions.User;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace GlobalMeet.WebApi.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class OrderController : ControllerBase
     {
+        private readonly IOrderService _orderService;
+        private readonly IUserService _userService;
+        public OrderController(IOrderService orderService, IUserService userService)
+        {
+            _orderService = orderService;
+            _userService = userService;
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ServiceResult>> AddOrder([FromForm] AddOrderDto orderDto)
+        {
+            var user = _userService.GetLoggedUser();
+            var response = await _orderService.AddOrder(orderDto, (int)user.Data);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ServiceResult>> GetOrder(int id)
+        {
+            var response = await _orderService.GetOrder(id);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ServiceResult>> GetOrders()
+        {
+            var response = await _orderService.GetOrders();
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ServiceResult>> GetOrdersByUser()
+        {
+            var user = _userService.GetLoggedUser();
+            var response = await _orderService.GetOrdersByUser((int)user.Data);
+            return Ok(response);
+        }
+
+
+
+        /*  Task<ServiceResult> AddOrder(AddOrderDto orderDto, int userId);
+        Task<ServiceResult> GetOrder(int id);
+        Task<ServiceResult> GetOrdersByUser(int userId);
+        Task<ServiceResult> GetOrders();*/
     }
 }

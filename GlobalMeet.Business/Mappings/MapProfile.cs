@@ -32,6 +32,12 @@ namespace GlobalMeet.Business.Mappings
 
             CreateMap<Profession, AddProfessionDto>().ReverseMap();
             CreateMap<Profession, GetProfessionDto>().ReverseMap();
+
+            CreateMap<Order, AddOrderDto>().ReverseMap();
+            CreateMap<Order, GetOrderDto>().ReverseMap();
+
+            CreateMap<ArchivedMeet, AddArchivedMeetDto>().ReverseMap();
+            CreateMap<ArchivedMeet, GetArchivedMeetDto>().ReverseMap();
             #endregion
         }
     }

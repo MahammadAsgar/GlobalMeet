@@ -1,14 +1,13 @@
 ﻿using GlobalMeet.Business.Dtos.Main.Post;
 using GlobalMeet.Business.Results;
 using GlobalMeet.Business.Services.Abstractions.Main;
-using GlobalMeet.Business.Services.Implementations.Main;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace GlobalMeet.WebApi.Controllers
 {
+    [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class ProfessionController : ControllerBase
@@ -28,7 +27,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-        [Authorize("superadmin")]
+        //[Authorize(Roles = "admin", Policy ="admin")]
         [HttpPut]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> UpdateProfession([FromForm] AddProfessionDto professionDto, int id)

@@ -26,6 +26,7 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
         public async Task<IEnumerable<MeetDate>> GetMeetDates()
         {
             return await GetAsQueryable()
+                .Include(x=>x.Status)
                 .ToListAsync();
         }
 

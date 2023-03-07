@@ -292,7 +292,7 @@ namespace GlobalMeet.Business.Services.Implementations.User
             {
                 if (updateUserDto.AboutId.HasValue)
                 {
-                   // user.AboutId = updateUserDto.AboutId.Value;
+                    user.AboutId = updateUserDto.AboutId.Value;
                 }
 
                 if (updateUserDto.Experience.HasValue)
@@ -305,14 +305,14 @@ namespace GlobalMeet.Business.Services.Implementations.User
                     user.ConsultationCost = updateUserDto.ConsultationCost.Value;
                 }
 
-                //if (updateUserDto.MeetDateIds.Any())
-                //{
-                //    user.MeetDates = (await _unitOfWork.Repository<MeetDate>().GetAllAsync(x => updateUserDto.MeetDateIds.Contains(x.Id))).ToList();
-                //}
+                if (updateUserDto.MeetDateIds.Any())
+                {
+                    user.MeetDates = (await _unitOfWork.Repository<MeetDate>().GetAllAsync(x => updateUserDto.MeetDateIds.Contains(x.Id))).ToList();
+                }
 
                 if (updateUserDto.ProfessionIds.Any())
                 {
-                    //user.Professions = (await _unitOfWork.Repository<Profession>().GetAllAsync(x => updateUserDto.ProfessionIds.Contains(x.Id))).ToList();
+                    user.Professions = (await _unitOfWork.Repository<Profession>().GetAllAsync(x => updateUserDto.ProfessionIds.Contains(x.Id))).ToList();
                 }
 
                 var result = await _userManager.UpdateAsync(user);

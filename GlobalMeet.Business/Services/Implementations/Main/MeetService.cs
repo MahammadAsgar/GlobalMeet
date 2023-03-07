@@ -31,10 +31,16 @@ namespace GlobalMeet.Business.Services.Implementations.Main
         {
             var meet = _mapper.Map<MeetDate>(meetDateDto);
             meet.StatusId = 1;
+            meet.IsActive = true;
             await _unitOfWork.Repository<MeetDate>().AddAsync(meet);
-            var newMeet = await _meetDateRepository.GetLastMeet();
+
+            var newMeet = await _meetDateRepository.GetMeetDate(meet.Id);
             var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
-            user.MeetDates.Add(newMeet);
+
+            var list = new List<MeetDate>();
+            list.Add(meet);
+            user.MeetDates = list;
+
             var result = await _userManager.UpdateAsync(user);
             _unitOfWork.Commit();
             if (result.Succeeded)
@@ -137,10 +143,10 @@ namespace GlobalMeet.Business.Services.Implementations.Main
                     meet.EndDateDate = meetDateDto.EndDateDate.Value;
                 }
 
-                if (meetDateDto.StatusId.HasValue)
-                {
-                    meet.StatusId = meetDateDto.StatusId.Value;
-                }
+                //if (meetDateDto.StatusId.HasValue)
+                //{
+                //    meet.StatusId = meetDateDto.StatusId.Value;
+                //}
                 _unitOfWork.Repository<MeetDate>().Update(meet);
                 _unitOfWork.Commit();
                 return new ServiceResult(true);
@@ -151,32 +157,32 @@ namespace GlobalMeet.Business.Services.Implementations.Main
 
 
         //Admin And User
-        public async Task<ServiceResult> ReserveMeet(UserReserveMeetDto userReserveMeetDto, int userId, int meetOwnUserId)
-        {
-            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
-            var meets = await _meetDateRepository.GetMeetDatesByUser(meetOwnUserId);
+        //public async Task<ServiceResult> ReserveMeet(UserReserveMeetDto userReserveMeetDto, int userId, int meetOwnUserId)
+        //{
+        //    var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
+        //    var meets = await _meetDateRepository.GetMeetDatesByUser(meetOwnUserId);
 
-            foreach (var item1 in meets)
-            {
-                foreach (var item2 in userReserveMeetDto.ReservedMeetIds)
-                {
-                    if (item1.Id == item2)
-                    {
-                        item1.StatusId = 2;
-                       // user.ReservedMeets.Add(item1);
-                        _unitOfWork.Repository<MeetDate>().Update(item1);
-                        _unitOfWork.Commit();
-                    }
-                }
-            }
-            // user.ReservedMeets = (await _unitOfWork.Repository<MeetDate>().GetAllAsync(x => userReserveMeetDto.ReservedMeets.Contains(x.Id))).ToList();
-            var result = await _userManager.UpdateAsync(user);
-            if (result.Succeeded)
-            {
-                return new ServiceResult(true);
-            }
-            return new ServiceResult(false);
-        }
+        //    foreach (var item1 in meets)
+        //    {
+        //        foreach (var item2 in userReserveMeetDto.ReservedMeetIds)
+        //        {
+        //            if (item1.Id == item2)
+        //            {
+        //                item1.StatusId = 2;
+        //               // user.ReservedMeets.Add(item1);
+        //                _unitOfWork.Repository<MeetDate>().Update(item1);
+        //                _unitOfWork.Commit();
+        //            }
+        //        }
+        //    }
+        //    // user.ReservedMeets = (await _unitOfWork.Repository<MeetDate>().GetAllAsync(x => userReserveMeetDto.ReservedMeets.Contains(x.Id))).ToList();
+        //    var result = await _userManager.UpdateAsync(user);
+        //    if (result.Succeeded)
+        //    {
+        //        return new ServiceResult(true);
+        //    }
+        //    return new ServiceResult(false);
+        //}
 
     }
 }
