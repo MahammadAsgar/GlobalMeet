@@ -11,6 +11,9 @@ namespace GlobalMeet.DataAccess.Entities.Main
         public int StatusId { get; set; }
         public Status Status { get; set; }
         public bool IsActive { get; set; }
+        public bool Joined { get; set; }
+        public int? AppUserId { get; set; }
+        public AppUser AppUser { get; set; }
     }
     public class Status : EntityBase
     {

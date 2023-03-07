@@ -32,22 +32,23 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             var meet = _mapper.Map<MeetDate>(meetDateDto);
             meet.StatusId = 1;
             meet.IsActive = true;
+            meet.AppUserId=userId;
             await _unitOfWork.Repository<MeetDate>().AddAsync(meet);
 
             var newMeet = await _meetDateRepository.GetMeetDate(meet.Id);
-            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            //var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
 
-            var list = new List<MeetDate>();
-            list.Add(meet);
-            user.MeetDates = list;
+            //var list = new List<MeetDate>();
+            //list.Add(meet);
+            //user.MeetDates = list;
 
-            var result = await _userManager.UpdateAsync(user);
+            //var result = await _userManager.UpdateAsync(user);
             _unitOfWork.Commit();
-            if (result.Succeeded)
-            {
-                return new ServiceResult(true);
-            }
-            return new ServiceResult(false);
+            //if (result.Succeeded)
+            //{
+            //    return new ServiceResult(true);
+            //}
+            return new ServiceResult(true);
         }
 
         public Task<ServiceResult> DeleteMeet(int id, int userId)
@@ -154,6 +155,18 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             return new ServiceResult(false);
         }
 
+        public async Task<ServiceResult> ChangeJoined(int userId, int id, bool joined)
+        {
+            var meet = await _meetDateRepository.GetMeetDateByUser(userId, id);
+            if (meet!=null&&meet.StatusId==2)
+            {
+                meet.Joined = joined;
+                _unitOfWork.Repository<MeetDate>().Update(meet);
+                _unitOfWork.Commit();
+                return new ServiceResult(true);
+            }
+            return new ServiceResult(false);
+        }
 
 
         //Admin And User

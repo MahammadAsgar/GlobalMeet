@@ -15,5 +15,7 @@ namespace GlobalMeet.Business.Services.Abstractions.Main
         Task<ServiceResult> GetOrder(int id);
         Task<ServiceResult> GetOrdersByUser(int userId);
         Task<ServiceResult> GetOrders();
+
+        Task<ServiceResult> ArchivedOrder(int userId);
     }
 }

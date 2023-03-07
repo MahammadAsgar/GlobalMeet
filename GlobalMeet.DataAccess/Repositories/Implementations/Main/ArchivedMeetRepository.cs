@@ -23,11 +23,11 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<ICollection<ArchivedMeet>> GetArchivedMeetByUser(int userId)
+        public async Task<ArchivedMeet> GetArchivedMeetByUser(int userId)
         {
             return await GetAsQueryable()
                 .Include(x => x.ArchivedMeetDates)
-                .ToListAsync();
+                .FirstOrDefaultAsync();
         }
     }
 }

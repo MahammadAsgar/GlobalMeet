@@ -4,6 +4,7 @@ using GlobalMeet.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GlobalMeet.DataAccess.Migrations
 {
     [DbContext(typeof(GlobalMeetDbContext))]
-    partial class GlobalMeetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230307132501_MeetMig")]
+    partial class MeetMig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

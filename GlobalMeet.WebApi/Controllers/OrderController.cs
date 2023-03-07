@@ -54,11 +54,13 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-
-
-        /*  Task<ServiceResult> AddOrder(AddOrderDto orderDto, int userId);
-        Task<ServiceResult> GetOrder(int id);
-        Task<ServiceResult> GetOrdersByUser(int userId);
-        Task<ServiceResult> GetOrders();*/
+        [HttpPut]
+        [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ServiceResult>> ArchivedOrder()
+        {
+            var user = _userService.GetLoggedUser();
+            var response = await _orderService.ArchivedOrder((int)user.Data);
+            return Ok(response);
+        }
     }
 }

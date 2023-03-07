@@ -104,9 +104,6 @@ builder.Services.AddAuthorization(options =>
 });
 #endregion
 
-
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
