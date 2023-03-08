@@ -66,9 +66,9 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [CustomAuthorize("Admin", "Admin")]
-        [CustomAuthorize("User", "User")]
+        [CustomAuthorize("SuperAdmin", "Admin", "User")]
+        //[CustomAuthorize("Admin", "Admin")]
+        //[CustomAuthorize("User", "User")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetAboutByUser()

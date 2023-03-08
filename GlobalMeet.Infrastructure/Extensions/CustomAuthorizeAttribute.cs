@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using System.Security.Claims;
 
 namespace GlobalMeet.Infrastructure.Extensions
 {
@@ -25,8 +26,23 @@ namespace GlobalMeet.Infrastructure.Extensions
 
             //claim type a görə check
             //var hasAllRequredClaims = _requiredClaims.All(claim => context.HttpContext.User.HasClaim(x => x.Type == claim));
-            var hasAllRequredClaims = _requiredClaims.All(claim => context.HttpContext.User.HasClaim(x => x.Value == claim));
-            if (!hasAllRequredClaims)
+            var cc = false;
+            foreach (var item in _requiredClaims)
+            {
+                if (context.HttpContext.User.HasClaim(x => x.Value == item))
+                {
+                   cc=true;
+                    break;
+                }
+            }
+            //var hasAllRequredClaims = _requiredClaims.All(claim => context.HttpContext.User.HasClaim(x => x.Value == claim));
+            //if (!hasAllRequredClaims)
+            //{
+            //    context.Result = new ForbidResult();
+            //    return;
+            //}
+
+            if (!cc)
             {
                 context.Result = new ForbidResult();
                 return;
