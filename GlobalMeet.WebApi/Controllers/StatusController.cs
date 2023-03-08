@@ -1,9 +1,7 @@
-﻿
-
-using GlobalMeet.Business.Dtos.Main.Post;
+﻿using GlobalMeet.Business.Dtos.Main.Post;
 using GlobalMeet.Business.Results;
 using GlobalMeet.Business.Services.Abstractions.Main;
-using GlobalMeet.Business.Services.Implementations.Main;
+using GlobalMeet.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -19,7 +17,7 @@ namespace GlobalMeet.WebApi.Controllers
             _statusService = statusService;
         }
 
-
+        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
         [HttpPost]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> AddStatus([FromForm] AddStatusDto statusDto)
@@ -28,6 +26,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
+        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
         [HttpPut]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> UpdateStatus([FromForm] AddStatusDto statusDto, int id)
@@ -36,6 +35,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
+        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
         [HttpPut]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> DeleteStatus(int id)
@@ -44,6 +44,8 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
+
+        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetStatus(int id)
@@ -52,6 +54,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
+        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetStatuses()

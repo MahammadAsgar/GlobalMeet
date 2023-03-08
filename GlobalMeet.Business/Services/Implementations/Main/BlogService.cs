@@ -29,16 +29,9 @@ namespace GlobalMeet.Business.Services.Implementations.Main
         public async Task<ServiceResult> AddBlog(AddBlogDto blogDto, int userId)
         {
             var blog = _mapper.Map<Blog>(blogDto);
+            blog.AppUserId = userId;
             await _unitOfWork.Repository<Blog>().AddAsync(blog);
             _unitOfWork.Commit();
-            var newBlog = await _blogRepository.GetBlog(blog.Id);
-            var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
-           // user.Blogs.Append(newBlog);
-            var result = await _userManager.UpdateAsync(user);
-            if (result.Succeeded)
-            {
-                return new ServiceResult(true);
-            }
             return new ServiceResult(false);
         }
 
@@ -47,15 +40,9 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             var blog = await _blogRepository.GetBlog(id);
             if (blog != null)
             {
-                var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
-               // user.Blogs.Remove(blog);
-                var result = await _userManager.UpdateAsync(user);
-                if (result.Succeeded)
-                {
-                    _unitOfWork.Repository<Blog>().Delete(blog);
-                    _unitOfWork.Commit();
-                    return new ServiceResult(true);
-                }
+                _unitOfWork.Repository<Blog>().Delete(blog);
+                _unitOfWork.Commit();
+                return new ServiceResult(true);
             }
             return new ServiceResult(false);
         }

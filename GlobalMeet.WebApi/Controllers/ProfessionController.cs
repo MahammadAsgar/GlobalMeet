@@ -1,6 +1,7 @@
 ﻿using GlobalMeet.Business.Dtos.Main.Post;
 using GlobalMeet.Business.Results;
 using GlobalMeet.Business.Services.Abstractions.Main;
+using GlobalMeet.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -18,8 +19,9 @@ namespace GlobalMeet.WebApi.Controllers
             _professionService = professionService;
         }
 
+
+        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
         [HttpPost]
-      //  [Authorize("superadmin")]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> AddProfession([FromForm] AddProfessionDto professionDto)
         {
@@ -27,7 +29,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-        //[Authorize(Roles = "admin", Policy ="admin")]
+        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
         [HttpPut]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> UpdateProfession([FromForm] AddProfessionDto professionDto, int id)
@@ -36,6 +38,10 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
+
+        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
+        [CustomAuthorize("Admin", "Admin")]
+        [CustomAuthorize("User", "User")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetProfession(int id)
@@ -44,6 +50,9 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
+        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
+        [CustomAuthorize("Admin", "Admin")]
+        [CustomAuthorize("User", "User")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetProfessions()

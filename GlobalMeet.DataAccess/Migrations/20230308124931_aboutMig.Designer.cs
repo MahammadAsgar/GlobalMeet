@@ -4,6 +4,7 @@ using GlobalMeet.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GlobalMeet.DataAccess.Migrations
 {
     [DbContext(typeof(GlobalMeetDbContext))]
-    partial class GlobalMeetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230308124931_aboutMig")]
+    partial class aboutMig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,7 +85,7 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AppUserId")
+                    b.Property<int>("AppUserId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -568,8 +570,10 @@ namespace GlobalMeet.DataAccess.Migrations
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.Blog", b =>
                 {
                     b.HasOne("GlobalMeet.DataAccess.Entities.User.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId");
+                        .WithMany("Blogs")
+                        .HasForeignKey("AppUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AppUser");
                 });
@@ -695,6 +699,8 @@ namespace GlobalMeet.DataAccess.Migrations
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.User.AppUser", b =>
                 {
+                    b.Navigation("Blogs");
+
                     b.Navigation("MeetDates");
                 });
 #pragma warning restore 612, 618

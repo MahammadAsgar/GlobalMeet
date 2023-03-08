@@ -21,9 +21,10 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             _aboutRepository = aboutRepository;
         }
 
-        public async Task<ServiceResult> AddAbout(AddAboutDto aboutDto)
+        public async Task<ServiceResult> AddAbout(AddAboutDto aboutDto, int userId)
         {
             var about = _mapper.Map<About>(aboutDto);
+            about.AppUserId= userId;
             await _unitOfWork.Repository<About>().AddAsync(about);
             _unitOfWork.Commit();
             return new ServiceResult(true);
@@ -37,7 +38,18 @@ namespace GlobalMeet.Business.Services.Implementations.Main
                 var response = _mapper.Map<GetAboutDto>(about);
                 return new ServiceResult(true, response);
             }
-            return new ServiceResult(true);
+            return new ServiceResult(false);
+        }
+
+        public async Task<ServiceResult> GetAboutByUser(int userId)
+        {
+            var about = await _aboutRepository.GetAboutByUser(userId);
+            if (about != null)
+            {
+                var response = _mapper.Map<GetAboutDto>(about);
+                return new ServiceResult(true, response);
+            }
+            return new ServiceResult(false);
         }
 
         public async Task<ServiceResult> GetAbouts()
@@ -48,10 +60,10 @@ namespace GlobalMeet.Business.Services.Implementations.Main
                 var response = _mapper.Map<IEnumerable<GetAboutDto>>(abouts);
                 return new ServiceResult(true, response);
             }
-            return new ServiceResult(true);
+            return new ServiceResult(false);
         }
-
-        public async Task<ServiceResult> UpdateAbout(AddAboutDto aboutDto, int id)
+      
+        public async Task<ServiceResult> UpdateAbout(AddAboutDto aboutDto, int id, int userId)
         {
             var about = await _aboutRepository.GetAbout(id);
             if (about != null)

@@ -97,11 +97,12 @@ builder.Services.AddSwaggerGen(c =>
                    });
 });
 builder.Services.AddAuthentication();
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("superadmin", policy => policy.RequireRole("superadmin", "admin"));
-    options.AddPolicy("admin", policy => policy.RequireRole("admin"));
-});
+builder.Services.AddAuthorization();
+//builder.Services.AddAuthorization(options =>
+//{
+//    options.AddPolicy("superadmin", policy => policy.RequireRole("superadmin", "admin"));
+//    options.AddPolicy("admin", policy => policy.RequireRole("admin"));
+//});
 #endregion
 
 var app = builder.Build();

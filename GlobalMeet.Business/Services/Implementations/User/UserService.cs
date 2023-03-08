@@ -290,10 +290,10 @@ namespace GlobalMeet.Business.Services.Implementations.User
             var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
             if (user != null)
             {
-                if (updateUserDto.AboutId.HasValue)
-                {
-                    user.AboutId = updateUserDto.AboutId.Value;
-                }
+                //if (updateUserDto.AboutId.HasValue)
+                //{
+                //    user.AboutId = updateUserDto.AboutId.Value;
+                //}
 
                 if (updateUserDto.Experience.HasValue)
                 {

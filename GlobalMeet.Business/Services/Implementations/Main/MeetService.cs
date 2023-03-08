@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using GlobalMeet.Business.Dtos.Main.Get;
 using GlobalMeet.Business.Dtos.Main.Post;
-using GlobalMeet.Business.Dtos.User.Post;
 using GlobalMeet.Business.Results;
 using GlobalMeet.Business.Services.Abstractions.Main;
 using GlobalMeet.DataAccess.Entities.Main;
@@ -9,7 +8,6 @@ using GlobalMeet.DataAccess.Entities.User;
 using GlobalMeet.DataAccess.Repositories.Abstractions.Main;
 using GlobalMeet.DataAccess.UnitOfWorks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace GlobalMeet.Business.Services.Implementations.Main
 {
@@ -32,7 +30,7 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             var meet = _mapper.Map<MeetDate>(meetDateDto);
             meet.StatusId = 1;
             meet.IsActive = true;
-            meet.AppUserId=userId;
+            meet.AppUserId = userId;
             await _unitOfWork.Repository<MeetDate>().AddAsync(meet);
 
             var newMeet = await _meetDateRepository.GetMeetDate(meet.Id);
@@ -158,7 +156,7 @@ namespace GlobalMeet.Business.Services.Implementations.Main
         public async Task<ServiceResult> ChangeJoined(int userId, int id, bool joined)
         {
             var meet = await _meetDateRepository.GetMeetDateByUser(userId, id);
-            if (meet!=null&&meet.StatusId==2)
+            if (meet != null && meet.StatusId == 2)
             {
                 meet.Joined = joined;
                 _unitOfWork.Repository<MeetDate>().Update(meet);
