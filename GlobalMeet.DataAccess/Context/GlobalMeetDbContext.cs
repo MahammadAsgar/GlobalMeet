@@ -20,7 +20,6 @@ namespace GlobalMeet.DataAccess.Context
         public DbSet<MeetDate> MeetDates { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Profession> Professions { get; set; }
-        public DbSet<ArchivedMeet> ArchivedMeets { get; set; }
         public DbSet<Order> Orders { get; set; }
     }
 }

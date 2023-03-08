@@ -35,9 +35,6 @@ namespace GlobalMeet.Business.Mappings
 
             CreateMap<Order, AddOrderDto>().ReverseMap();
             CreateMap<Order, GetOrderDto>().ReverseMap();
-
-            CreateMap<ArchivedMeet, AddArchivedMeetDto>().ReverseMap();
-            CreateMap<ArchivedMeet, GetArchivedMeetDto>().ReverseMap();
             #endregion
         }
     }

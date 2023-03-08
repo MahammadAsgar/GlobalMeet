@@ -8,5 +8,8 @@ namespace GlobalMeet.DataAccess.Repositories.Abstractions.Main
         Task<Order> GetOrder(int id);
         Task<ICollection<Order>> GetOrdersByUser(int userId);
         Task<ICollection<Order>> GetOrders();
+
+        Task<ICollection<Order>> GetArchivedOrdersByUser(int userId);
+        Task<ICollection<Order>> GetNonJoinedOrderByUser(int userId);
     }
 }

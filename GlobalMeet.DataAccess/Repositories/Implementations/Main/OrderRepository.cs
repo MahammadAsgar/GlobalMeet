@@ -2,11 +2,7 @@
 using GlobalMeet.DataAccess.Entities.Main;
 using GlobalMeet.DataAccess.Repositories.Abstractions.Main;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
 {
@@ -35,6 +31,21 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
             return await GetAsQueryable()
                 .Include(x => x.MeetDate)
                 .Where(x => x.AppUserId == userId)
+                .ToListAsync();
+        }
+
+
+        public async Task<ICollection<Order>> GetArchivedOrdersByUser(int userId)
+        {
+            return await GetAsQueryable()
+                .Where(x => x.AppUserId == userId && x.MeetDate.Day < DateTime.Now)
+                .ToListAsync();
+        }
+
+        public async Task<ICollection<Order>> GetNonJoinedOrderByUser(int userId)
+        {
+            return await GetAsQueryable()
+                 .Where(x => x.AppUserId == userId && x.MeetDate.Day > DateTime.Now)
                 .ToListAsync();
         }
     }

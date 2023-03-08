@@ -8,7 +8,6 @@ using GlobalMeet.DataAccess.Entities.User;
 using GlobalMeet.DataAccess.Repositories.Abstractions.Main;
 using GlobalMeet.DataAccess.UnitOfWorks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace GlobalMeet.Business.Services.Implementations.Main
 {
@@ -18,19 +17,16 @@ namespace GlobalMeet.Business.Services.Implementations.Main
         private readonly IUnitOfWork _unitOfWork;
         private readonly IOrderRepository _orderRepository;
         private readonly IMeetDateRepository _meetDateRepository;
-        private readonly IArchivedMeetRepository _archivedMeetRepository;
         private readonly UserManager<AppUser> _userManager;
         public OrderService(IMapper mapper, IUnitOfWork unitOfWork, IOrderRepository orderRepository, IMeetDateRepository meetDateRepository,
-            UserManager<AppUser> userManager, IArchivedMeetRepository archivedMeetRepository)
+            UserManager<AppUser> userManager)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _orderRepository = orderRepository;
             _meetDateRepository = meetDateRepository;
             _userManager = userManager;
-            _archivedMeetRepository = archivedMeetRepository;
         }
-
 
         public async Task<ServiceResult> AddOrder(AddOrderDto orderDto, int userId)
         {
@@ -42,6 +38,45 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             _unitOfWork.Repository<MeetDate>().Update(meet);
             _unitOfWork.Commit();
             return new ServiceResult(true);
+        }
+
+
+        public async Task<ServiceResult> CancelOrder(int id, int userId)
+        {
+            var orders = await _orderRepository.GetOrdersByUser(userId);
+            var order = orders.FirstOrDefault(x => x.Id == id);
+            if (order != null)
+            {
+                var meet = await _meetDateRepository.GetMeetDate(order.MeetDateId);
+                meet.StatusId = 1;
+                _unitOfWork.Repository<Order>().Delete(order);
+                _unitOfWork.Repository<MeetDate>().Update(meet);
+                _unitOfWork.Commit();
+                return new ServiceResult(true);
+            }
+            return new ServiceResult(false);
+        }
+
+        public async Task<ServiceResult> GetArchivedOrdersByUser(int userId)
+        {
+            var orders = await _orderRepository.GetArchivedOrdersByUser(userId);
+            if (orders != null)
+            {
+                var response = _mapper.Map<Order>(orders);
+                return new ServiceResult(true, response);
+            }
+            return new ServiceResult(false);
+        }
+
+        public async Task<ServiceResult> GetNonJoinedOrderByUser(int userId)
+        {
+            var orders = await _orderRepository.GetNonJoinedOrderByUser(userId);
+            if (orders != null)
+            {
+                var response = _mapper.Map<Order>(orders);
+                return new ServiceResult(true, response);
+            }
+            return new ServiceResult(false);
         }
 
         public async Task<ServiceResult> GetOrder(int id)
@@ -75,42 +110,6 @@ namespace GlobalMeet.Business.Services.Implementations.Main
                 return new ServiceResult(true, response);
             }
             return new ServiceResult(false);
-        }
-
-        public async Task<ServiceResult> ArchivedOrder(int userId)
-        {
-            var orders = await _orderRepository.GetOrdersByUser(userId);
-            ArchivedMeet archivedMeet = await _archivedMeetRepository.GetArchivedMeetByUser(userId);
-            if (archivedMeet == null)
-            {
-                archivedMeet = new ArchivedMeet();
-                archivedMeet.AppUserId = userId;
-                var meets = new List<MeetDate>();
-                foreach (var item in orders)
-                {
-                    if (item.MeetDate.Day < DateTime.Now)
-                    {
-                        meets.Add(item.MeetDate);
-                    }
-                }
-                archivedMeet.ArchivedMeetDates = meets;
-                await _unitOfWork.Repository<ArchivedMeet>().AddAsync(archivedMeet);
-            }
-            else
-            {
-                var meets = new List<MeetDate>();
-                foreach (var item in orders)
-                {
-                    if (item.MeetDate.Day < DateTime.Now)
-                    {
-                        meets.Add(item.MeetDate);
-                    }
-                }
-                archivedMeet.ArchivedMeetDates = meets;
-                _unitOfWork.Repository<ArchivedMeet>().Update(archivedMeet);
-            }
-            _unitOfWork.Commit();
-            return new ServiceResult(true);
         }
     }
 }

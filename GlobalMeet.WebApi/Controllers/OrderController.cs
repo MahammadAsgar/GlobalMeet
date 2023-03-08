@@ -54,12 +54,31 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-        [HttpPut]
+        [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ServiceResult>> ArchivedOrder()
+        public async Task<ActionResult<ServiceResult>> GetArchivedOrdersByUser()
         {
             var user = _userService.GetLoggedUser();
-            var response = await _orderService.ArchivedOrder((int)user.Data);
+            var response = await _orderService.GetArchivedOrdersByUser((int)user.Data);
+            return Ok(response);
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ServiceResult>> GetNonJoinedOrderByUser()
+        {
+            var user = _userService.GetLoggedUser();
+            var response = await _orderService.GetNonJoinedOrderByUser((int)user.Data);
+            return Ok(response);
+        }
+
+
+        [HttpPut]
+        [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ServiceResult>> CancelOrder(int id)
+        {
+            var user = _userService.GetLoggedUser();
+            var response = await _orderService.CancelOrder(id, (int)user.Data);
             return Ok(response);
         }
     }

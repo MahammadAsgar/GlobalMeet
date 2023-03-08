@@ -21,7 +21,6 @@ namespace GlobalMeet.DataAccess
             services.AddScoped<IProfessionRepository, ProfessionRepository>();
             services.AddScoped<IStatusRepository, StatusRepository>();
             services.AddScoped<IMeetDateRepository, MeetDateRepository>();
-            services.AddScoped<IArchivedMeetRepository, ArchivedMeetRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
         }
     }
