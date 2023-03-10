@@ -30,7 +30,7 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             var meet = _mapper.Map<MeetDate>(meetDateDto);
             meet.StatusId = 1;
             meet.IsActive = true;
-            meet.AppUserId = userId;
+            // meet.AppUserId = userId;
             await _unitOfWork.Repository<MeetDate>().AddAsync(meet);
 
             var newMeet = await _meetDateRepository.GetMeetDate(meet.Id);
@@ -67,45 +67,45 @@ namespace GlobalMeet.Business.Services.Implementations.Main
 
         public async Task<ServiceResult> GetMeetDatesByStatus(int status)
         {
-            var meet = await _meetDateRepository.GetMeetDatesByStatus(status);
-            if (meet != null)
-            {
-                var response = _mapper.Map<IEnumerable<GetMeetDateDto>>(meet);
-                return new ServiceResult(true, response);
-            }
+            //var meet = await _meetDateRepository.GetMeetDatesByStatus(status);
+            //if (meet != null)
+            //{
+            //    var response = _mapper.Map<IEnumerable<GetMeetDateDto>>(meet);
+            //    return new ServiceResult(true, response);
+            //}
             return new ServiceResult(false);
         }
 
         public async Task<ServiceResult> GetMeetDatesByUser(int userId)
         {
-            var meet = await _meetDateRepository.GetMeetDatesByUser(userId);
-            if (meet != null)
-            {
-                var response = _mapper.Map<IEnumerable<GetMeetDateDto>>(meet);
-                return new ServiceResult(true, response);
-            }
+            //var meet = await _meetDateRepository.GetMeetDatesByUser(userId);
+            //if (meet != null)
+            //{
+            //    var response = _mapper.Map<IEnumerable<GetMeetDateDto>>(meet);
+            //    return new ServiceResult(true, response);
+            //}
             return new ServiceResult(false);
         }
 
         public async Task<ServiceResult> GetMeetDatesByUserStatus(int userId, int statusId)
         {
-            var meet = await _meetDateRepository.GetMeetDatesByUserStatus(userId, statusId);
-            if (meet != null)
-            {
-                var response = _mapper.Map<IEnumerable<GetMeetDateDto>>(meet);
-                return new ServiceResult(true, response);
-            }
+            //var meet = await _meetDateRepository.GetMeetDatesByUserStatus(userId, statusId);
+            //if (meet != null)
+            //{
+            //    var response = _mapper.Map<IEnumerable<GetMeetDateDto>>(meet);
+            //    return new ServiceResult(true, response);
+            //}
             return new ServiceResult(false);
         }
 
         public async Task<ServiceResult> GetMeetDatesFree(int userId, bool isFree)
         {
-            var meet = await _meetDateRepository.GetMeetDatesFree(userId, isFree);
-            if (meet != null)
-            {
-                var response = _mapper.Map<IEnumerable<GetMeetDateDto>>(meet);
-                return new ServiceResult(true, response);
-            }
+            //var meet = await _meetDateRepository.GetMeetDatesFree(userId, isFree);
+            //if (meet != null)
+            //{
+            //    var response = _mapper.Map<IEnumerable<GetMeetDateDto>>(meet);
+            //    return new ServiceResult(true, response);
+            //}
             return new ServiceResult(false);
         }
 
@@ -155,14 +155,14 @@ namespace GlobalMeet.Business.Services.Implementations.Main
 
         public async Task<ServiceResult> ChangeJoined(int userId, int id, bool joined)
         {
-            var meet = await _meetDateRepository.GetMeetDateByUser(userId, id);
-            if (meet != null && meet.StatusId == 2)
-            {
-                meet.Joined = joined;
-                _unitOfWork.Repository<MeetDate>().Update(meet);
-                _unitOfWork.Commit();
-                return new ServiceResult(true);
-            }
+            //    var meet = await _meetDateRepository.GetMeetDateByUser(userId, id);
+            //    if (meet != null && meet.StatusId == 2)
+            //    {
+            //        meet.Joined = joined;
+            //        _unitOfWork.Repository<MeetDate>().Update(meet);
+            //        _unitOfWork.Commit();
+            //        return new ServiceResult(true);
+            //    }
             return new ServiceResult(false);
         }
 

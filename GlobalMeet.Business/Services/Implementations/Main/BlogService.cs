@@ -8,7 +8,6 @@ using GlobalMeet.DataAccess.Entities.User;
 using GlobalMeet.DataAccess.Repositories.Abstractions.Main;
 using GlobalMeet.DataAccess.UnitOfWorks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 
 namespace GlobalMeet.Business.Services.Implementations.Main
 {
@@ -29,7 +28,7 @@ namespace GlobalMeet.Business.Services.Implementations.Main
         public async Task<ServiceResult> AddBlog(AddBlogDto blogDto, int userId)
         {
             var blog = _mapper.Map<Blog>(blogDto);
-            blog.AppUserId = userId;
+            //blog.AppUserId = userId;
             await _unitOfWork.Repository<Blog>().AddAsync(blog);
             _unitOfWork.Commit();
             return new ServiceResult(false);

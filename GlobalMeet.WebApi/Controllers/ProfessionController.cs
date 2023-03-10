@@ -1,5 +1,4 @@
-﻿using GlobalMeet.Business.Dtos.Main.Post;
-using GlobalMeet.Business.Results;
+﻿using GlobalMeet.Business.Results;
 using GlobalMeet.Business.Services.Abstractions.Main;
 using GlobalMeet.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -20,23 +19,23 @@ namespace GlobalMeet.WebApi.Controllers
         }
 
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [HttpPost]
-        [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ServiceResult>> AddProfession([FromForm] AddProfessionDto professionDto)
-        {
-            var response = await _professionService.AddProfession(professionDto);
-            return Ok(response);
-        }
+        //[CustomAuthorize("SuperAdmin", "SuperAdmin")]
+        //[HttpPost]
+        //[ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
+        ////public async Task<ActionResult<ServiceResult>> AddProfession([FromForm] AddProfessionDto professionDto)
+        ////{
+        ////    var response = await _professionService.AddProfession(professionDto);
+        ////    return Ok(response);
+        ////}
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [HttpPut]
-        [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ServiceResult>> UpdateProfession([FromForm] AddProfessionDto professionDto, int id)
-        {
-            var response = await _professionService.UpdateProfession(professionDto, id);
-            return Ok(response);
-        }
+        //[CustomAuthorize("SuperAdmin", "SuperAdmin")]
+        //[HttpPut]
+        //[ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
+        //public async Task<ActionResult<ServiceResult>> UpdateProfession([FromForm] AddProfessionDto professionDto, int id)
+        //{
+        //    var response = await _professionService.UpdateProfession(professionDto, id);
+        //    return Ok(response);
+        //}
 
 
         [CustomAuthorize("SuperAdmin", "SuperAdmin")]

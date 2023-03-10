@@ -11,5 +11,9 @@ namespace GlobalMeet.DataAccess.Repositories.Abstractions.Main
 
         Task<ICollection<Order>> GetArchivedOrdersByUser(int userId);
         Task<ICollection<Order>> GetNonJoinedOrderByUser(int userId);
+
+        Task<ICollection<Order>> GetOrdersByCompany(int companyId);
+        Task<ICollection<Order>> GetArchivedOrdersByCompany(int companyId);
+        Task<ICollection<Order>> GetNonJoinedOrdersByCompany(int companyId);
     }
 }

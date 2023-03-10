@@ -5,5 +5,6 @@ namespace GlobalMeet.Business.Dtos.Main.Post
     {
         //public int AppUserId { get; set; }
         public int MeetDateId { get; set; }
+        public int CompanyId { get; set; }
     }
 }

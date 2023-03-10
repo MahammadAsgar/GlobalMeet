@@ -18,7 +18,7 @@ namespace GlobalMeet.DataAccess
             services.AddScoped<IAboutFileRepository, AboutFileRepository>();
             services.AddScoped<IBlogRepository, BlogRepository>();
             services.AddScoped<IBlogFileRepsitory, BlogFileRepository>();
-            services.AddScoped<IProfessionRepository, ProfessionRepository>();
+            services.AddScoped<ICategoryRepository, ProfessionRepository>();
             services.AddScoped<IStatusRepository, StatusRepository>();
             services.AddScoped<IMeetDateRepository, MeetDateRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();

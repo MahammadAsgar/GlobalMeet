@@ -3,7 +3,7 @@
     public class GetOrderDto
     {
         public int Id { get; set; }
-        //public AppUserDto AppUser { get; set; }
         public GetMeetDateDto MeetDate { get; set; }
+        public GetCompanyNameDto Company { get; set; }
     }
 }

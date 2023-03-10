@@ -30,8 +30,8 @@ namespace GlobalMeet.Business.Mappings
             CreateMap<Status, AddStatusDto>().ReverseMap();
             CreateMap<Status, GetStatusDto>().ReverseMap();
 
-            CreateMap<Profession, AddProfessionDto>().ReverseMap();
-            CreateMap<Profession, GetProfessionDto>().ReverseMap();
+            CreateMap<Category, AddCategoryDto>().ReverseMap();
+            CreateMap<Category, GetCategoryDto>().ReverseMap();
 
             CreateMap<Order, AddOrderDto>().ReverseMap();
             CreateMap<Order, GetOrderDto>().ReverseMap();

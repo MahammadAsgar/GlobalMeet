@@ -1,8 +1,8 @@
 ﻿namespace GlobalMeet.Business.Dtos.Main.Get
 {
-    public class GetProfessionDto
+    public class GetCategoryDto
     {
         public int Id { get; set; }
-        public string ProfessionTitle { get; set; }
+        public string CategoryTitle { get; set; }
     }
 }

@@ -18,14 +18,6 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<About> GetAboutByUser(int userId)
-        {
-            return await GetAsQueryable()
-                .Include(x => x.AboutFiles)
-                .Where(x => x.AppUserId == userId)
-                .FirstOrDefaultAsync();
-        }
-
         public async Task<IEnumerable<About>> GetAbouts()
         {
             return await GetAsQueryable()

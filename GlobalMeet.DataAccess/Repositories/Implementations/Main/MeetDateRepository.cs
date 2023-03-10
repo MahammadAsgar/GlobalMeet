@@ -15,52 +15,25 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
         {
             return await GetAsQueryable()
                 .Include(x => x.Status)
+                .Include(x => x.Category)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
-        public async Task<MeetDate> GetLastMeet()
-        {
-            return await GetAsQueryable()
-                .OrderBy(x => x.Id)
-                .LastOrDefaultAsync();
-        }
-        public async Task<IEnumerable<MeetDate>> GetMeetDates()
+
+        public async Task<ICollection<MeetDate>> GetMeetDatesByCompany(int companyId)
         {
             return await GetAsQueryable()
                 .Include(x => x.Status)
+                .Include(x => x.Category)
+                .Where(x => x.CategoryId == companyId)
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<MeetDate>> GetMeetDatesByStatus(int status)
+        public async Task<ICollection<MeetDate>> GetMeetDates()
         {
             return await GetAsQueryable()
+                .Include(x => x.Status)
+                .Include(x => x.Category)
                 .ToListAsync();
-        }
-
-        public async Task<IEnumerable<MeetDate>> GetMeetDatesByUser(int userId)
-        {
-            return await GetAsQueryable()
-                  .Where(x => x.AppUserId == userId)
-                .ToListAsync();
-        }
-        public async Task<MeetDate> GetMeetDateByUser(int userId, int id)
-        {
-            return await GetAsQueryable()
-                .Where(x => x.AppUserId == userId)
-                .FirstOrDefaultAsync(x => x.Id == id);
-        }
-
-        public async Task<IEnumerable<MeetDate>> GetMeetDatesByUserStatus(int userId, int statusId)
-        {
-            return await GetAsQueryable()
-                // .Where(x => x.AppUserId == userId && x.StatusId == statusId)
-                .ToListAsync();
-        }
-
-        public async Task<IEnumerable<MeetDate>> GetMeetDatesFree(int userId, bool isFree)
-        {
-            return await GetAsQueryable()
-                 //  .Where(x => x.AppUserId == userId && x.AppUser.IsFree == isFree)
-                 .ToListAsync();
         }
     }
 }

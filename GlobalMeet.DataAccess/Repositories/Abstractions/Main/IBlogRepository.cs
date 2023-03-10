@@ -6,6 +6,6 @@ namespace GlobalMeet.DataAccess.Repositories.Abstractions.Main
     {
         Task<Blog> GetBlog(int id);
         Task<IEnumerable<Blog>> GetBlogs();
-        Task<IEnumerable<Blog>> GetBlogsByUser(int userId);
+        Task<IEnumerable<Blog>> GetBlogsByUser(int companyid);
     }
 }

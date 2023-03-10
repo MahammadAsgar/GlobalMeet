@@ -5,19 +5,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
 {
-    public class ProfessionRepository : GenericRepository<Profession>, IProfessionRepository
+    public class ProfessionRepository : GenericRepository<Category>, ICategoryRepository
     {
         public ProfessionRepository(GlobalMeetDbContext globalMeetDbContext) : base(globalMeetDbContext)
         {
         }
-
-        public async Task<Profession> GetProfession(int id)
+        public async Task<Category> GetCategory(int id)
         {
             return await GetAsQueryable()
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<IEnumerable<Profession>> GetProfessions()
+        public async Task<IEnumerable<Category>> GetCategories()
         {
             return await GetAsQueryable()
                 .ToListAsync();

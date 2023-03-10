@@ -4,6 +4,7 @@ using GlobalMeet.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GlobalMeet.DataAccess.Migrations
 {
     [DbContext(typeof(GlobalMeetDbContext))]
-    partial class GlobalMeetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230310100507_MeetDateMig")]
+    partial class MeetDateMig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,6 +24,21 @@ namespace GlobalMeet.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("CategoryCompany", b =>
+                {
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CompaniesId")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoriesId", "CompaniesId");
+
+                    b.HasIndex("CompaniesId");
+
+                    b.ToTable("CategoryCompany");
+                });
+
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.About", b =>
                 {
                     b.Property<int>("Id")
@@ -29,9 +46,6 @@ namespace GlobalMeet.DataAccess.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("CompanyId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -54,9 +68,6 @@ namespace GlobalMeet.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CompanyId")
-                        .IsUnique();
 
                     b.ToTable("Abouts");
                 });
@@ -107,15 +118,15 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("CategoryTitle")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("EditDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("EditUserId")
                         .HasColumnType("int");
+
+                    b.Property<string>("ProfessionTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("RegDate")
                         .HasColumnType("datetime2");
@@ -135,6 +146,9 @@ namespace GlobalMeet.DataAccess.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("AboutId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CompanyCategoryId")
                         .HasColumnType("int");
@@ -160,6 +174,8 @@ namespace GlobalMeet.DataAccess.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AboutId");
 
                     b.HasIndex("CompanyCategoryId");
 
@@ -607,15 +623,19 @@ namespace GlobalMeet.DataAccess.Migrations
                     b.HasDiscriminator().HasValue("BlogFile");
                 });
 
-            modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.About", b =>
+            modelBuilder.Entity("CategoryCompany", b =>
                 {
-                    b.HasOne("GlobalMeet.DataAccess.Entities.Main.Company", "Company")
-                        .WithOne("About")
-                        .HasForeignKey("GlobalMeet.DataAccess.Entities.Main.About", "CompanyId")
+                    b.HasOne("GlobalMeet.DataAccess.Entities.Main.Category", null)
+                        .WithMany()
+                        .HasForeignKey("CategoriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Company");
+                    b.HasOne("GlobalMeet.DataAccess.Entities.Main.Company", null)
+                        .WithMany()
+                        .HasForeignKey("CompaniesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.Blog", b =>
@@ -629,11 +649,17 @@ namespace GlobalMeet.DataAccess.Migrations
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.Company", b =>
                 {
+                    b.HasOne("GlobalMeet.DataAccess.Entities.Main.About", "About")
+                        .WithMany()
+                        .HasForeignKey("AboutId");
+
                     b.HasOne("GlobalMeet.DataAccess.Entities.Main.CompanyCategory", "CompanyCategory")
                         .WithMany()
                         .HasForeignKey("CompanyCategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("About");
 
                     b.Navigation("CompanyCategory");
                 });
@@ -780,9 +806,6 @@ namespace GlobalMeet.DataAccess.Migrations
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.Company", b =>
                 {
-                    b.Navigation("About")
-                        .IsRequired();
-
                     b.Navigation("AppUsers");
 
                     b.Navigation("Blogs");

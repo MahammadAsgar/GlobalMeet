@@ -7,5 +7,8 @@
         public DateTime StartDate { get; set; }
         public DateTime EndDateDate { get; set; }
         public GetStatusDto Status { get; set; }
+        public GetCompanyNameDto Company { get; set; }
+        public GetCategoryDto Category { get; set; }
+        public decimal ConsultationCost { get; set; }
     }
 }

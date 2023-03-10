@@ -25,11 +25,11 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
                  .ToListAsync();
         }
 
-        public async Task<IEnumerable<Blog>> GetBlogsByUser(int userId)
+        public async Task<IEnumerable<Blog>> GetBlogsByUser(int companyid)
         {
             return await GetAsQueryable()
                 .Include(x => x.BlogFiles)
-                .Where(x => x.AppUserId == userId)
+                .Where(x => x.CompanyId == companyid)
                 .ToListAsync();
         }
     }

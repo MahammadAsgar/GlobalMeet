@@ -1,6 +1,6 @@
 ﻿namespace GlobalMeet.Business.Dtos.Main.Get
 {
-    internal class GetAboutDto
+    public class GetAboutDto
     {
         public int Id { get; set; }
         public string Title { get; set; }

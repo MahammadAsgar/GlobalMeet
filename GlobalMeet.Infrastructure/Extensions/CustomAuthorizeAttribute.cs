@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using System.Security.Claims;
 
 namespace GlobalMeet.Infrastructure.Extensions
 {
@@ -31,7 +30,7 @@ namespace GlobalMeet.Infrastructure.Extensions
             {
                 if (context.HttpContext.User.HasClaim(x => x.Value == item))
                 {
-                   cc=true;
+                    cc = true;
                     break;
                 }
             }

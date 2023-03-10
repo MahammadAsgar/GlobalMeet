@@ -8,6 +8,10 @@ namespace GlobalMeet.DataAccess.Entities.Main
         public int AppUserId { get; set; }
         public AppUser AppUser { get; set; }
 
+
+        public int CompanyId { get; set; }
+        public Company Company { get; set; }
+
         public int MeetDateId { get; set; }
         public MeetDate MeetDate { get; set; }
     }

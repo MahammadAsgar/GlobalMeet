@@ -48,5 +48,26 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
                  .Where(x => x.AppUserId == userId && x.MeetDate.Day > DateTime.Now)
                 .ToListAsync();
         }
+
+        public async Task<ICollection<Order>> GetOrdersByCompany(int companyId)
+        {
+            return await GetAsQueryable()
+                .Where(x => x.CompanyId == companyId)
+                .ToListAsync();
+        }
+
+        public async Task<ICollection<Order>> GetArchivedOrdersByCompany(int companyId)
+        {
+            return await GetAsQueryable()
+                .Where(x => x.CompanyId == companyId && x.MeetDate.Day < DateTime.Now)
+                .ToListAsync();
+        }
+
+        public async Task<ICollection<Order>> GetNonJoinedOrdersByCompany(int companyId)
+        {
+            return await GetAsQueryable()
+                 .Where(x => x.CompanyId == companyId && x.MeetDate.Day > DateTime.Now)
+                .ToListAsync();
+        }
     }
 }

@@ -20,8 +20,8 @@ namespace GlobalMeet.WebApi.Controllers
             _userService = userService;
         }
 
-        [CustomAuthorize("SuperAdmin","SuperAdmin")]
-        [CustomAuthorize("Admin","Admin")]
+        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
+        [CustomAuthorize("Admin", "Admin")]
         [HttpPost]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> AddBlog([FromForm] AddBlogDto blogDto)
