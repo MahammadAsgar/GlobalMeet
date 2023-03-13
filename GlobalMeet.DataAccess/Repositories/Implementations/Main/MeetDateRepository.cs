@@ -24,7 +24,7 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
             return await GetAsQueryable()
                 .Include(x => x.Status)
                 .Include(x => x.Category)
-                .Where(x => x.CategoryId == companyId)
+                //.Where(x => x.CategoryId == companyId)
                 .ToListAsync();
         }
 
@@ -42,6 +42,14 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
                 .Include(x => x.Status)
                 .Include(x => x.Category)
                 .Where(x => x.StatusId == statusId)
+                .ToListAsync();
+        }
+
+        public async Task<ICollection<MeetDate>> GetDatesInToday()
+        {
+            return await GetAsQueryable()
+                .Include(x => x.Category)
+                .Where(x => x.StatusId == 2)
                 .ToListAsync();
         }
     }

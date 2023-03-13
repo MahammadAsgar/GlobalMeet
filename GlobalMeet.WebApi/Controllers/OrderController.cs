@@ -21,9 +21,7 @@ namespace GlobalMeet.WebApi.Controllers
         }
 
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [CustomAuthorize("Admin", "Admin")]
-        [CustomAuthorize("User", "User")]
+        [CustomAuthorize("SuperAdmin", "Owner", "User")]
         [HttpPost]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> AddOrder([FromForm] AddOrderDto orderDto)
@@ -33,9 +31,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [CustomAuthorize("Admin", "Admin")]
-        [CustomAuthorize("User", "User")]
+        [CustomAuthorize("SuperAdmin", "Owner", "User")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetOrder(int id)
@@ -45,7 +41,7 @@ namespace GlobalMeet.WebApi.Controllers
         }
 
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetOrders()
@@ -56,8 +52,7 @@ namespace GlobalMeet.WebApi.Controllers
 
 
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [CustomAuthorize("User", "User")]
+        [CustomAuthorize("SuperAdmin", "Owner", "User")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetOrdersByUser()
@@ -67,8 +62,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [CustomAuthorize("User", "User")]
+        [CustomAuthorize("SuperAdmin", "Owner","User")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetArchivedOrdersByUser()
@@ -79,8 +73,7 @@ namespace GlobalMeet.WebApi.Controllers
         }
 
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [CustomAuthorize("User", "User")]
+        [CustomAuthorize("SuperAdmin", "Owner", "User")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetNonJoinedOrderByUser()
@@ -90,9 +83,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [CustomAuthorize("Admin", "Admin")]
-        [CustomAuthorize("User", "User")]
+        [CustomAuthorize("SuperAdmin", "Owner", "User")]
         [HttpPut]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> CancelOrder(int id)

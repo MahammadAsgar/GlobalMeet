@@ -10,7 +10,7 @@ namespace GlobalMeet.Business.Services.Abstractions.Main
 {
     public interface ICompanyService
     {
-        Task<ServiceResult> AddCompany(AddCompanyDto companyDto);
+        Task<ServiceResult> AddCompany(AddCompanyDto companyDto, int userId);
         Task<ServiceResult> GetCompany(int id);
         Task<ServiceResult> GetCompanies();
     }

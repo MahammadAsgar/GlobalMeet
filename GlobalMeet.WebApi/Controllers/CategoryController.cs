@@ -20,7 +20,7 @@ namespace GlobalMeet.WebApi.Controllers
         }
 
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpPost]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> AddCategory([FromForm] AddCategoryDto categoryDto)
@@ -29,7 +29,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpPut]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> UpdateCategory([FromForm] AddCategoryDto categoryDto , int id)
@@ -39,9 +39,7 @@ namespace GlobalMeet.WebApi.Controllers
         }
 
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [CustomAuthorize("Admin", "Admin")]
-        [CustomAuthorize("User", "User")]
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetCategory(int id)
@@ -50,9 +48,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [CustomAuthorize("Admin", "Admin")]
-        [CustomAuthorize("User", "User")]
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetCategories()

@@ -54,7 +54,7 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             if (order != null)
             {
                 var meet = await _meetDateRepository.GetMeetDate(order.MeetDateId);
-                meet.StatusId = 1;
+                meet.StatusId = 3;
                 order.IsActive = false;
                 _unitOfWork.Repository<Order>().Update(order);
                 _unitOfWork.Repository<MeetDate>().Update(meet);

@@ -20,8 +20,7 @@ namespace GlobalMeet.WebApi.Controllers
             _userService = userService;
         }
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [CustomAuthorize("Admin", "Admin")]
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpPost]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> AddBlog([FromForm] AddBlogDto blogDto)
@@ -31,9 +30,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [CustomAuthorize("Admin", "Admin")]
-        [CustomAuthorize("User", "User")]
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetBlog(int id)
@@ -42,7 +39,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetBlogs()
@@ -51,9 +48,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [CustomAuthorize("Admin", "Admin")]
-        [CustomAuthorize("User", "User")]
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetBlogsByUser()

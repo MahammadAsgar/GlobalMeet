@@ -27,6 +27,7 @@ namespace GlobalMeet.Business.Mappings
 
             CreateMap<MeetDate, AddMeetDateDto>().ReverseMap();
             CreateMap<MeetDate, GetMeetDateDto>().ReverseMap();
+
             CreateMap<Status, AddStatusDto>().ReverseMap();
             CreateMap<Status, GetStatusDto>().ReverseMap();
 
@@ -35,6 +36,12 @@ namespace GlobalMeet.Business.Mappings
 
             CreateMap<Order, AddOrderDto>().ReverseMap();
             CreateMap<Order, GetOrderDto>().ReverseMap();
+
+            CreateMap<Company, AddCompanyDto>().ReverseMap();
+            CreateMap<Company, GetCompanyDto>().ReverseMap();
+
+            CreateMap<CompanyCategory, AddCompanyCategoryDto>().ReverseMap();
+            CreateMap<CompanyCategory, GetCompanyCategoryDto>().ReverseMap();
             #endregion
         }
     }

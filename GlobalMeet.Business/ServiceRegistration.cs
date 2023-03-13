@@ -17,6 +17,7 @@ namespace GlobalMeet.Business
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMailService, MailService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICompanyService, CompanyService>();
             services.AddScoped<ICompanyCategoryService, CompanyCategoryService>();
             services.AddScoped<IAboutService, AboutService>();
             services.AddScoped<IBlogService, BlogService>();

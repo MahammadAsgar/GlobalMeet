@@ -21,8 +21,7 @@ namespace GlobalMeet.WebApi.Controllers
         }
 
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [CustomAuthorize("Admin", "Admin")]
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpPost]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> AddMeetDate([FromForm] AddMeetDateDto meetDateDto)
@@ -33,8 +32,7 @@ namespace GlobalMeet.WebApi.Controllers
         }
 
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [CustomAuthorize("Admin", "Admin")]
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpPut]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> UpdateMeetDate([FromForm] AddMeetDateDto meetDateDto, int id)
@@ -45,8 +43,7 @@ namespace GlobalMeet.WebApi.Controllers
         }
 
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [CustomAuthorize("Admin", "Admin")]
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpPut]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> DeleteMeetDate(int id)
@@ -57,7 +54,7 @@ namespace GlobalMeet.WebApi.Controllers
         }
 
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetMeetDate(int id)
@@ -67,7 +64,7 @@ namespace GlobalMeet.WebApi.Controllers
         }
 
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetMeetDates()
@@ -77,7 +74,7 @@ namespace GlobalMeet.WebApi.Controllers
         }
 
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetMeetDatesByStatus(int statusId)
@@ -86,8 +83,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-        [CustomAuthorize("SuperAdmin", "SuperAdmin")]
-        [CustomAuthorize("Admin", "Admin")]
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetMeetDatesByCompany()

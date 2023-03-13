@@ -4,10 +4,14 @@ using GlobalMeet.Business.Dtos.Main.Post;
 using GlobalMeet.Business.Results;
 using GlobalMeet.Business.Services.Abstractions.Main;
 using GlobalMeet.DataAccess.Entities.Main;
+using GlobalMeet.DataAccess.Entities.User;
 using GlobalMeet.DataAccess.Repositories.Abstractions.Main;
 using GlobalMeet.DataAccess.UnitOfWorks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,16 +23,22 @@ namespace GlobalMeet.Business.Services.Implementations.Main
         private readonly IMapper _mapper;
         private readonly IUnitOfWork _unitOfWork;
         private readonly ICompanyRepository _companyRepository;
-        public CompanyService(IMapper mapper, IUnitOfWork unitOfWork, ICompanyRepository companyRepository)
+        private readonly UserManager<AppUser> _userManager;
+        public CompanyService(IMapper mapper, IUnitOfWork unitOfWork, ICompanyRepository companyRepository, UserManager<AppUser> userManager)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _companyRepository = companyRepository;
+            _userManager = userManager;
         }
 
-        public async Task<ServiceResult> AddCompany(AddCompanyDto companyDto)
+        public async Task<ServiceResult> AddCompany(AddCompanyDto companyDto, int userId)
         {
             var company = _mapper.Map<Company>(companyDto);
+            company.IsActive = true;
+            var user = _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
+            company.AppUsers=new List<AppUser>();
+            company.AppUsers.Add(user.Result);
             await _unitOfWork.Repository<Company>().AddAsync(company);
             _unitOfWork.Commit();
             return new ServiceResult(true);

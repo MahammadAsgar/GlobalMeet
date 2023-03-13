@@ -31,11 +31,11 @@ namespace GlobalMeet.Business.Services.Implementations.Main
         {
             var blog = _mapper.Map<Blog>(blogDto);
             blog.IsActive = true;
-            var company = _companyRepository.GetCompanyByUser(userId);
+            var company = await _companyRepository.GetCompanyByUser(userId);
             blog.CompanyId = company.Id;
             await _unitOfWork.Repository<Blog>().AddAsync(blog);
             _unitOfWork.Commit();
-            return new ServiceResult(false);
+            return new ServiceResult(true);
         }
 
         public async Task<ServiceResult> DeleteBlog(AddBlogDto blogDto, int id, int userId)

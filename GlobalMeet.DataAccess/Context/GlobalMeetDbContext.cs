@@ -12,18 +12,7 @@ namespace GlobalMeet.DataAccess.Context
         {
 
         }
-        //protected override void OnModelCreating(ModelBuilder builder)
-        //{
-        //    builder.Entity<Company>()
-        //        .HasOne(c => c.About)
-        //        .WithOne(a => a.Company)
-        //        .HasForeignKey<Company>(a => a.AboutId);
 
-        //    builder.Entity<About>()
-        //        .HasOne(a => a.Company)
-        //        .WithOne(x => x.About)
-        //        .HasForeignKey<About>(x => x.CompanyId);
-        //}
         public DbSet<About> Abouts { get; set; }
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<F.File> Files { get; set; }
