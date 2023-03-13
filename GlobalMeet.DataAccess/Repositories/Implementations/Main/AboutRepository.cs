@@ -18,6 +18,15 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<About> GetAboutByCompany(int companyId)
+        {
+            return await GetAsQueryable()
+                .Include(x => x.AboutFiles)
+                .Where(x => x.CompanyId == companyId)
+                .OrderBy(x => x.Id)
+                .LastOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<About>> GetAbouts()
         {
             return await GetAsQueryable()

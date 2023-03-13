@@ -97,8 +97,7 @@ namespace GlobalMeet.WebApi.Controllers
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> CancelOrder(int id)
         {
-            var user = _userService.GetLoggedUser();
-            var response = await _orderService.CancelOrder(id, (int)user.Data);
+            var response = await _orderService.CancelOrder(id);
             return Ok(response);
         }
     }

@@ -18,38 +18,45 @@ namespace GlobalMeet.Business.Services.Implementations.Main
         private readonly IOrderRepository _orderRepository;
         private readonly IMeetDateRepository _meetDateRepository;
         private readonly UserManager<AppUser> _userManager;
-        public OrderService(IMapper mapper, IUnitOfWork unitOfWork, IOrderRepository orderRepository, IMeetDateRepository meetDateRepository,
-            UserManager<AppUser> userManager)
+        private readonly ICompanyRepository _companyRepository;
+        public OrderService(IMapper mapper, IUnitOfWork unitOfWork, IOrderRepository orderRepository, IMeetDateRepository meetDateRepository, ICompanyRepository companyRepository, UserManager<AppUser> userManager)
         {
             _mapper = mapper;
             _unitOfWork = unitOfWork;
             _orderRepository = orderRepository;
             _meetDateRepository = meetDateRepository;
             _userManager = userManager;
+            _companyRepository = companyRepository;
         }
 
         public async Task<ServiceResult> AddOrder(AddOrderDto orderDto, int userId)
         {
             var order = _mapper.Map<Order>(orderDto);
             order.AppUserId = userId;
-            await _unitOfWork.Repository<Order>().AddAsync(order);
-            var meet = await _meetDateRepository.GetMeetDate(orderDto.MeetDateId);
-            meet.StatusId = 2;
-            _unitOfWork.Repository<MeetDate>().Update(meet);
-            _unitOfWork.Commit();
-            return new ServiceResult(true);
+            order.IsActive = true;
+            var meets = await _meetDateRepository.GetMeetDatesByCompany(order.CompanyId);
+            var meet = meets.FirstOrDefault(x => x.Id == orderDto.MeetDateId);
+            if (meet != null)
+            {
+                await _unitOfWork.Repository<Order>().AddAsync(order);
+                meet.StatusId = 2;
+                _unitOfWork.Repository<MeetDate>().Update(meet);
+                _unitOfWork.Commit();
+                return new ServiceResult(true);
+            }
+            return new ServiceResult(false, "meetDate not found");
         }
 
 
-        public async Task<ServiceResult> CancelOrder(int id, int userId)
+        public async Task<ServiceResult> CancelOrder(int id)
         {
-            var orders = await _orderRepository.GetOrdersByUser(userId);
-            var order = orders.FirstOrDefault(x => x.Id == id);
+            var order = await _orderRepository.GetOrder(id);
             if (order != null)
             {
                 var meet = await _meetDateRepository.GetMeetDate(order.MeetDateId);
                 meet.StatusId = 1;
-                _unitOfWork.Repository<Order>().Delete(order);
+                order.IsActive = false;
+                _unitOfWork.Repository<Order>().Update(order);
                 _unitOfWork.Repository<MeetDate>().Update(meet);
                 _unitOfWork.Commit();
                 return new ServiceResult(true);

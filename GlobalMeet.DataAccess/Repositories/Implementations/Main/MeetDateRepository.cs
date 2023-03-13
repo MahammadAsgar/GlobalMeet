@@ -35,5 +35,14 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
                 .Include(x => x.Category)
                 .ToListAsync();
         }
+
+        public async Task<ICollection<MeetDate>> GetMeetDatesByStatus(int statusId)
+        {
+            return await GetAsQueryable()
+                .Include(x => x.Status)
+                .Include(x => x.Category)
+                .Where(x => x.StatusId == statusId)
+                .ToListAsync();
+        }
     }
 }

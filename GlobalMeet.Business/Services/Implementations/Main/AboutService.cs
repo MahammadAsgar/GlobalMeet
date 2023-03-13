@@ -20,12 +20,13 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _aboutRepository = aboutRepository;
-            _companyRepository = companyRepository; 
+            _companyRepository = companyRepository;
         }
 
         public async Task<ServiceResult> AddAbout(AddAboutDto aboutDto, int userId)
         {
             var about = _mapper.Map<About>(aboutDto);
+            about.IsActive = true;
             var company = await _companyRepository.GetCompanyByUser(userId);
             about.CompanyId = company.Id;
             await _unitOfWork.Repository<About>().AddAsync(about);
@@ -44,14 +45,14 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             return new ServiceResult(false);
         }
 
-        public async Task<ServiceResult> GetAboutByUser(int userId)
+        public async Task<ServiceResult> GetAboutByUser(int companyId)
         {
-            //var about = await _aboutRepository.GetAboutByUser(userId);
-            //if (about != null)
-            //{
-            //    var response = _mapper.Map<GetAboutDto>(about);
-            //    return new ServiceResult(true, response);
-            //}
+            var about = _aboutRepository.GetAboutByCompany(companyId);
+            if (about != null)
+            {
+                var response = _mapper.Map<GetAboutDto>(about);
+                return new ServiceResult(true, response);
+            }
             return new ServiceResult(false);
         }
 
@@ -60,13 +61,13 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             var abouts = await _aboutRepository.GetAbouts();
             if (abouts != null)
             {
-                var response = _mapper.Map<IEnumerable<GetAboutDto>>(abouts);
+                var response = _mapper.Map<ICollection<GetAboutDto>>(abouts);
                 return new ServiceResult(true, response);
             }
             return new ServiceResult(false);
         }
 
-        public async Task<ServiceResult> UpdateAbout(AddAboutDto aboutDto, int id, int userId)
+        public async Task<ServiceResult> UpdateAbout(AddAboutDto aboutDto, int id)
         {
             var about = await _aboutRepository.GetAbout(id);
             if (about != null)

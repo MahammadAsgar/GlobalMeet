@@ -16,7 +16,8 @@ namespace GlobalMeet.Business
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IMailService, MailService>();
-            // services.AddScoped<IProfessionService, ProfessionService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICompanyCategoryService, CompanyCategoryService>();
             services.AddScoped<IAboutService, AboutService>();
             services.AddScoped<IBlogService, BlogService>();
             services.AddScoped<IMeetService, MeetService>();
@@ -30,3 +31,14 @@ namespace GlobalMeet.Business
         }
     }
 }
+/*
+  services.AddScoped<IAboutRepository, AboutRepository>();
+            services.AddScoped<IAboutFileRepository, AboutFileRepository>();
+            services.AddScoped<IBlogRepository, BlogRepository>();
+            services.AddScoped<IBlogFileRepsitory, BlogFileRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
+            services.AddScoped<IStatusRepository, StatusRepository>();
+            services.AddScoped<IMeetDateRepository, MeetDateRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+ */

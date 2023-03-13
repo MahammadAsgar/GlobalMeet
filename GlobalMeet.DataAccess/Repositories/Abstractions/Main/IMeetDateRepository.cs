@@ -6,6 +6,7 @@ namespace GlobalMeet.DataAccess.Repositories.Abstractions.Main
     {
         Task<MeetDate> GetMeetDate(int id);
         Task<ICollection<MeetDate>> GetMeetDatesByCompany(int companyId);
+        Task<ICollection<MeetDate>> GetMeetDatesByStatus(int statusId);
         Task<ICollection<MeetDate>> GetMeetDates();
     }
 }

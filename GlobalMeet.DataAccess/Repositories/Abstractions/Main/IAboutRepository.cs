@@ -6,6 +6,7 @@ namespace GlobalMeet.DataAccess.Repositories.Abstractions.Main
     {
         Task<About> GetAbout(int id);
         Task<IEnumerable<About>> GetAbouts();
+        Task<About> GetAboutByCompany(int companyId);
         //Task<About> GetAboutByUser(int userId);
     }
 }

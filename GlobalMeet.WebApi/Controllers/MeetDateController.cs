@@ -49,10 +49,10 @@ namespace GlobalMeet.WebApi.Controllers
         [CustomAuthorize("Admin", "Admin")]
         [HttpPut]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ServiceResult>> DeleteMeetDate(int id, int userId)
+        public async Task<ActionResult<ServiceResult>> DeleteMeetDate(int id)
         {
-            var user = _userService.GetLoggedUser();
-            var response = await _meetService.DeleteMeet(id, (int)user.Data);
+           //var user = _userService.GetLoggedUser();
+            var response = await _meetService.DeleteMeet(id);
             return Ok(response);
         }
 
@@ -90,25 +90,11 @@ namespace GlobalMeet.WebApi.Controllers
         [CustomAuthorize("Admin", "Admin")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ServiceResult>> GetMeetDatesByUser()
+        public async Task<ActionResult<ServiceResult>> GetMeetDatesByCompany()
         {
             var user = _userService.GetLoggedUser();
-            var response = await _meetService.GetMeetDatesByUser((int)user.Data);
+            var response = await _meetService.GetMeetDatesByCompany((int)user.Data);
             return Ok(response);
         }
-
-
-
-
-        /*ask<ServiceResult> AddMeet(AddMeetDateDto meetDateDto, int userId);
-        Task<ServiceResult> UpdateMeet(AddMeetDateDto meetDateDto, int id, int userId);
-        Task<ServiceResult> DeleteMeet(int id, int userId);
-        Task<ServiceResult> GetMeet(int id);
-        Task<ServiceResult> GetMeets();
-        Task<ServiceResult> GetMeetDatesByStatus(int status);
-        Task<ServiceResult> GetMeetDatesByUser(int userId);
-        Task<ServiceResult> GetMeetDatesByUserStatus(int userId, int statusId);
-        Task<ServiceResult> GetMeetDatesFree(int userId, bool isFree);*/
-
     }
 }

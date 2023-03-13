@@ -18,14 +18,14 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<IEnumerable<Blog>> GetBlogs()
+        public async Task<ICollection<Blog>> GetBlogs()
         {
             return await GetAsQueryable()
                  .Include(x => x.BlogFiles)
                  .ToListAsync();
         }
 
-        public async Task<IEnumerable<Blog>> GetBlogsByUser(int companyid)
+        public async Task<ICollection<Blog>> GetBlogsByCompany(int companyid)
         {
             return await GetAsQueryable()
                 .Include(x => x.BlogFiles)

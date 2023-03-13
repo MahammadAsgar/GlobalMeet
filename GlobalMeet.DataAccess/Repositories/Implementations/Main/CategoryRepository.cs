@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
 {
-    public class ProfessionRepository : GenericRepository<Category>, ICategoryRepository
+    public class CategoryRepository : GenericRepository<Category>, ICategoryRepository
     {
-        public ProfessionRepository(GlobalMeetDbContext globalMeetDbContext) : base(globalMeetDbContext)
+        public CategoryRepository(GlobalMeetDbContext globalMeetDbContext) : base(globalMeetDbContext)
         {
         }
         public async Task<Category> GetCategory(int id)

@@ -37,10 +37,9 @@ namespace GlobalMeet.WebApi.Controllers
         [CustomAuthorize("Admin", "Admin")]
         [HttpPut]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ServiceResult>> UpdateAbout([FromForm] AddAboutDto aboutDto)
+        public async Task<ActionResult<ServiceResult>> UpdateAbout([FromForm] AddAboutDto aboutDto, int id)
         {
-            var user = _userService.GetLoggedUser();
-            var response = await _aboutService.UpdateAbout(aboutDto, 1, (int)user.Data);
+            var response = await _aboutService.UpdateAbout(aboutDto, id);
             return Ok(response);
         }
 

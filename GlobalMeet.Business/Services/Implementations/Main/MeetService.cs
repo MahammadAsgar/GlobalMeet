@@ -8,6 +8,7 @@ using GlobalMeet.DataAccess.Entities.User;
 using GlobalMeet.DataAccess.Repositories.Abstractions.Main;
 using GlobalMeet.DataAccess.UnitOfWorks;
 using Microsoft.AspNetCore.Identity;
+using Org.BouncyCastle.Asn1.Cms;
 
 namespace GlobalMeet.Business.Services.Implementations.Main
 {
@@ -17,12 +18,14 @@ namespace GlobalMeet.Business.Services.Implementations.Main
         private readonly IMapper _mapper;
         private readonly IMeetDateRepository _meetDateRepository;
         private readonly UserManager<AppUser> _userManager;
-        public MeetService(IUnitOfWork unitOfWork, IMapper mapper, IMeetDateRepository meetDateRepository, UserManager<AppUser> userManager)
+        private readonly ICompanyRepository _companyRepository;
+        public MeetService(IUnitOfWork unitOfWork, IMapper mapper, IMeetDateRepository meetDateRepository, UserManager<AppUser> userManager, ICompanyRepository companyRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _meetDateRepository = meetDateRepository;
             _userManager = userManager;
+            _companyRepository = companyRepository;
         }
 
         public async Task<ServiceResult> AddMeet(AddMeetDateDto meetDateDto, int userId)
@@ -30,28 +33,27 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             var meet = _mapper.Map<MeetDate>(meetDateDto);
             meet.StatusId = 1;
             meet.IsActive = true;
-            // meet.AppUserId = userId;
+            meet.StatusId = 1;
+            meet.IsActive = true;
+            meet.Joined = false;
+            var company = await _companyRepository.GetCompanyByUser(userId);
+            meet.CompanyId = company.Id;
             await _unitOfWork.Repository<MeetDate>().AddAsync(meet);
-
-            var newMeet = await _meetDateRepository.GetMeetDate(meet.Id);
-            //var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
-
-            //var list = new List<MeetDate>();
-            //list.Add(meet);
-            //user.MeetDates = list;
-
-            //var result = await _userManager.UpdateAsync(user);
             _unitOfWork.Commit();
-            //if (result.Succeeded)
-            //{
-            //    return new ServiceResult(true);
-            //}
             return new ServiceResult(true);
         }
 
-        public Task<ServiceResult> DeleteMeet(int id, int userId)
+        public async Task<ServiceResult> DeleteMeet(int id)
         {
-            throw new NotImplementedException();
+            var meet = await _meetDateRepository.GetMeetDate(id);
+            if (meet != null)
+            {
+                meet.IsActive = false;
+                _unitOfWork.Repository<MeetDate>().Update(meet);
+                _unitOfWork.Commit();
+                return new ServiceResult(true);
+            }
+            return new ServiceResult(false);
         }
 
         public async Task<ServiceResult> GetMeet(int id)
@@ -65,47 +67,38 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             return new ServiceResult(false);
         }
 
-        public async Task<ServiceResult> GetMeetDatesByStatus(int status)
+        public async Task<ServiceResult> GetMeetDatesByStatus(int statusId)
         {
-            //var meet = await _meetDateRepository.GetMeetDatesByStatus(status);
-            //if (meet != null)
-            //{
-            //    var response = _mapper.Map<IEnumerable<GetMeetDateDto>>(meet);
-            //    return new ServiceResult(true, response);
-            //}
+            var meet = await _meetDateRepository.GetMeetDatesByStatus(statusId);
+            if (meet != null)
+            {
+                var response = _mapper.Map<ICollection<GetMeetDateDto>>(meet);
+                return new ServiceResult(true, response);
+            }
             return new ServiceResult(false);
         }
 
-        public async Task<ServiceResult> GetMeetDatesByUser(int userId)
+        public async Task<ServiceResult> GetMeetDatesByCompany(int companyId)
         {
-            //var meet = await _meetDateRepository.GetMeetDatesByUser(userId);
-            //if (meet != null)
-            //{
-            //    var response = _mapper.Map<IEnumerable<GetMeetDateDto>>(meet);
-            //    return new ServiceResult(true, response);
-            //}
+
+            var meet = await _meetDateRepository.GetMeetDatesByCompany(companyId);
+            if (meet != null)
+            {
+                var response = _mapper.Map<ICollection<GetMeetDateDto>>(meet);
+                return new ServiceResult(true, response);
+            }
             return new ServiceResult(false);
         }
 
-        public async Task<ServiceResult> GetMeetDatesByUserStatus(int userId, int statusId)
+        public async Task<ServiceResult> GetMeetDatesByUserStatus(int companyId, int statusId)
         {
-            //var meet = await _meetDateRepository.GetMeetDatesByUserStatus(userId, statusId);
-            //if (meet != null)
-            //{
-            //    var response = _mapper.Map<IEnumerable<GetMeetDateDto>>(meet);
-            //    return new ServiceResult(true, response);
-            //}
-            return new ServiceResult(false);
-        }
-
-        public async Task<ServiceResult> GetMeetDatesFree(int userId, bool isFree)
-        {
-            //var meet = await _meetDateRepository.GetMeetDatesFree(userId, isFree);
-            //if (meet != null)
-            //{
-            //    var response = _mapper.Map<IEnumerable<GetMeetDateDto>>(meet);
-            //    return new ServiceResult(true, response);
-            //}
+            var meet = await _meetDateRepository.GetMeetDatesByCompany(companyId);
+            var meets = meet.Where(x => x.StatusId == statusId);
+            if (meets != null)
+            {
+                var response = _mapper.Map<ICollection<GetMeetDateDto>>(meet);
+                return new ServiceResult(true, response);
+            }
             return new ServiceResult(false);
         }
 
@@ -114,7 +107,7 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             var meet = await _meetDateRepository.GetMeetDates();
             if (meet != null)
             {
-                var response = _mapper.Map<IEnumerable<GetMeetDateDto>>(meet);
+                var response = _mapper.Map<ICollection<GetMeetDateDto>>(meet);
                 return new ServiceResult(true, response);
             }
             return new ServiceResult(false);
@@ -165,35 +158,5 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             //    }
             return new ServiceResult(false);
         }
-
-
-        //Admin And User
-        //public async Task<ServiceResult> ReserveMeet(UserReserveMeetDto userReserveMeetDto, int userId, int meetOwnUserId)
-        //{
-        //    var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
-        //    var meets = await _meetDateRepository.GetMeetDatesByUser(meetOwnUserId);
-
-        //    foreach (var item1 in meets)
-        //    {
-        //        foreach (var item2 in userReserveMeetDto.ReservedMeetIds)
-        //        {
-        //            if (item1.Id == item2)
-        //            {
-        //                item1.StatusId = 2;
-        //               // user.ReservedMeets.Add(item1);
-        //                _unitOfWork.Repository<MeetDate>().Update(item1);
-        //                _unitOfWork.Commit();
-        //            }
-        //        }
-        //    }
-        //    // user.ReservedMeets = (await _unitOfWork.Repository<MeetDate>().GetAllAsync(x => userReserveMeetDto.ReservedMeets.Contains(x.Id))).ToList();
-        //    var result = await _userManager.UpdateAsync(user);
-        //    if (result.Succeeded)
-        //    {
-        //        return new ServiceResult(true);
-        //    }
-        //    return new ServiceResult(false);
-        //}
-
     }
 }

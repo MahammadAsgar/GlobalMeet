@@ -18,10 +18,12 @@ namespace GlobalMeet.DataAccess
             services.AddScoped<IAboutFileRepository, AboutFileRepository>();
             services.AddScoped<IBlogRepository, BlogRepository>();
             services.AddScoped<IBlogFileRepsitory, BlogFileRepository>();
-            services.AddScoped<ICategoryRepository, ProfessionRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<ICompanyRepository, CompanyRepository>();
             services.AddScoped<IStatusRepository, StatusRepository>();
             services.AddScoped<IMeetDateRepository, MeetDateRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<ICompanyCategoryRepository, CompanyCategoryRepository>();
         }
     }
 }

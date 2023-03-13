@@ -17,18 +17,22 @@ namespace GlobalMeet.Business.Services.Implementations.Main
         private readonly IMapper _mapper;
         private readonly IBlogRepository _blogRepository;
         private readonly UserManager<AppUser> _userManager;
+        private readonly ICompanyRepository _companyRepository;
 
-        public BlogService(IUnitOfWork unitOfWork, IMapper mapper, IBlogRepository blogRepository, UserManager<AppUser> userManager)
+        public BlogService(IUnitOfWork unitOfWork, IMapper mapper, IBlogRepository blogRepository, UserManager<AppUser> userManager, ICompanyRepository companyRepository)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _blogRepository = blogRepository;
             _userManager = userManager;
+            _companyRepository = companyRepository;
         }
         public async Task<ServiceResult> AddBlog(AddBlogDto blogDto, int userId)
         {
             var blog = _mapper.Map<Blog>(blogDto);
-            //blog.AppUserId = userId;
+            blog.IsActive = true;
+            var company = _companyRepository.GetCompanyByUser(userId);
+            blog.CompanyId = company.Id;
             await _unitOfWork.Repository<Blog>().AddAsync(blog);
             _unitOfWork.Commit();
             return new ServiceResult(false);
@@ -62,15 +66,15 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             var blogs = await _blogRepository.GetBlogs();
             if (blogs != null)
             {
-                var response = _mapper.Map<IEnumerable<GetBlogDto>>(blogs);
+                var response = _mapper.Map<ICollection<GetBlogDto>>(blogs);
                 return new ServiceResult(true, response);
             }
             return new ServiceResult(false);
         }
 
-        public async Task<ServiceResult> GetBlogsByUser(int userId)
+        public async Task<ServiceResult> GetBlogsByUser(int companyId)
         {
-            var blogs = await _blogRepository.GetBlogsByUser(userId);
+            var blogs = await _blogRepository.GetBlogsByCompany(companyId);
             if (blogs != null)
             {
                 var response = _mapper.Map<IEnumerable<GetBlogDto>>(blogs);

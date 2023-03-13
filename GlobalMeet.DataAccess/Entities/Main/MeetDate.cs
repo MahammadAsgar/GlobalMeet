@@ -22,8 +22,4 @@ namespace GlobalMeet.DataAccess.Entities.Main
 
         public decimal? ConsultationCost { get; set; }
     }
-    public class Status : EntityBase
-    {
-        public string StatusTitle { get; set; }
-    }
 }

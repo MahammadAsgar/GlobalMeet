@@ -9,5 +9,6 @@ namespace GlobalMeet.DataAccess.Entities.Main
         public IEnumerable<BlogFile> BlogFiles { get; set; }
         public int? CompanyId { get; set; }
         public Company? Company { get; set; }
+        public bool IsActive { get; set; }
     }
 }

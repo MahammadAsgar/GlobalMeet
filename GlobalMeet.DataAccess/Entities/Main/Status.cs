@@ -2,9 +2,9 @@
 
 namespace GlobalMeet.DataAccess.Entities.Main
 {
-    public class Category : EntityBase
+    public class Status : EntityBase
     {
-        public string CategoryTitle { get; set; }
+        public string StatusTitle { get; set; }
         public bool IsActive { get; set; }
     }
 }

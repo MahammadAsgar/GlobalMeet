@@ -11,11 +11,9 @@ namespace GlobalMeet.DataAccess.Entities.Main
 
         public int CompanyCategoryId { get; set; }
         public CompanyCategory CompanyCategory { get; set; }
-
-        // public int? AboutId { get; set; }
         public About About { get; set; }
-
         public ICollection<MeetDate>? MeetDates { get; set; }
         public ICollection<Blog>? Blogs { get; set; }
+        public bool IsActive { get; set; }
     }
 }
