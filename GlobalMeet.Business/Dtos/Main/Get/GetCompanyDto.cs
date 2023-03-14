@@ -15,6 +15,6 @@ namespace GlobalMeet.Business.Dtos.Main.Get
         public GetCompanyCategoryDto CompanyCategory { get; set; }
         public GetAboutDto About { get; set; }
         public ICollection<GetMeetDateDto> MeetDates { get; set; }
-        public ICollection<GetBlogDto> Blogs { get; set; }
+        public ICollection<GetBlogDto>? Blogs { get; set; }
     }
 }
