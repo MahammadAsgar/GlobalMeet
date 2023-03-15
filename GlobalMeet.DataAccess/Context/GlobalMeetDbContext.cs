@@ -22,6 +22,7 @@ namespace GlobalMeet.DataAccess.Context
         public DbSet<Category> Categories { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Company> Companies { get; set; }
+        public DbSet<MeetType> MeetTypes { get; set; }
         public DbSet<CompanyCategory> CompanyCategories { get; set; }
     }
 }

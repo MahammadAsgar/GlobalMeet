@@ -21,5 +21,9 @@ namespace GlobalMeet.DataAccess.Entities.Main
         public Category? Category { get; set; }
 
         public decimal? ConsultationCost { get; set; }
+
+        public bool IsFree { get; set; }
+        public int MeetTypeId { get; set; }
+        public MeetType MeetType { get; set; }
     }
 }

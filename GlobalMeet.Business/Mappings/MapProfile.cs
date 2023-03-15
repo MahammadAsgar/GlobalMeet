@@ -43,6 +43,9 @@ namespace GlobalMeet.Business.Mappings
 
             CreateMap<CompanyCategory, AddCompanyCategoryDto>().ReverseMap();
             CreateMap<CompanyCategory, GetCompanyCategoryDto>().ReverseMap();
+
+            CreateMap<MeetType, AddMeetTypeDto>().ReverseMap();
+            CreateMap<MeetType, GetMeetTypeDto>().ReverseMap();
             #endregion
         }
     }

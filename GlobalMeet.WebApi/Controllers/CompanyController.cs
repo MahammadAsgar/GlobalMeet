@@ -37,6 +37,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
+
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetCompanies()

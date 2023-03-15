@@ -24,6 +24,7 @@ namespace GlobalMeet.Business
             services.AddScoped<IMeetService, MeetService>();
             services.AddScoped<IStatusService, StatusService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IMeetTypeService, MeetTypeService>();
             services.AddAutoMapper(cfg =>
             {
                 cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;

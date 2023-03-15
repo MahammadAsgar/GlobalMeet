@@ -16,6 +16,7 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
             return await GetAsQueryable()
                 .Include(x => x.Status)
                 .Include(x => x.Category)
+                .Include(x => x.MeetType)
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
@@ -24,7 +25,8 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
             return await GetAsQueryable()
                 .Include(x => x.Status)
                 .Include(x => x.Category)
-                //.Where(x => x.CategoryId == companyId)
+                .Include(x => x.MeetType)
+                .Where(x => x.CompanyId == companyId)
                 .ToListAsync();
         }
 
@@ -33,6 +35,7 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
             return await GetAsQueryable()
                 .Include(x => x.Status)
                 .Include(x => x.Category)
+                .Include(x => x.MeetType)
                 .ToListAsync();
         }
 
@@ -41,6 +44,7 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
             return await GetAsQueryable()
                 .Include(x => x.Status)
                 .Include(x => x.Category)
+                .Include(x => x.MeetType)
                 .Where(x => x.StatusId == statusId)
                 .ToListAsync();
         }
@@ -49,7 +53,8 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
         {
             return await GetAsQueryable()
                 .Include(x => x.Category)
-                .Where(x => x.StatusId == 2)
+                .Include(x => x.MeetType)
+                .Where(x => x.StatusId == 2 && x.Day.Day == DateTime.Now.Day)
                 .ToListAsync();
         }
     }
