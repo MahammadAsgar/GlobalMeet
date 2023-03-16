@@ -13,5 +13,7 @@ namespace GlobalMeet.Business.Services.Abstractions.Main
         Task<ServiceResult> AddCompany(AddCompanyDto companyDto, int userId);
         Task<ServiceResult> GetCompany(int id);
         Task<ServiceResult> GetCompanies();
+        Task<ServiceResult> RejectRequest(int id);
+        Task<ServiceResult> ApproveRequest(int id);
     }
 }

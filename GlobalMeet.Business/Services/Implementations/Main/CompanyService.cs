@@ -36,6 +36,7 @@ namespace GlobalMeet.Business.Services.Implementations.Main
         {
             var company = _mapper.Map<Company>(companyDto);
             company.IsActive = true;
+            company.IsApproved = false;
             var user = _userManager.Users.FirstOrDefaultAsync(x => x.Id == userId);
             company.AppUsers=new List<AppUser>();
             company.AppUsers.Add(user.Result);
@@ -62,6 +63,32 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             {
                 var response = _mapper.Map<GetCompanyDto>(company);
                 return new ServiceResult(true, response);
+            }
+            return new ServiceResult(false);
+        }
+         
+        public async Task<ServiceResult>  AppruveRequest(int id)
+        {
+            var company= await _companyRepository.GetCompany(id);
+            if (company!=null)
+            {
+                company.IsApproved = true;
+                _unitOfWork.Repository<Company>().Update(company);
+                _unitOfWork.Commit();   
+                var response= _mapper.Map<GetCompanyDto>(company);
+                return new ServiceResult(true, response);
+            }
+            return new ServiceResult(false);
+        }
+        public async Task<ServiceResult> RejectRequest(int id)
+        {
+            var company =await  _companyRepository.GetCompany(id);
+            if (company != null)
+            {
+                company.IsActive=false;
+                _unitOfWork.Repository<Company>().Update(company);
+                _unitOfWork.Commit();
+                return new ServiceResult(true);
             }
             return new ServiceResult(false);
         }

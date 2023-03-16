@@ -45,5 +45,22 @@ namespace GlobalMeet.WebApi.Controllers
             var response = await _companyService.GetCompanies();
             return Ok(response);
         }
+
+
+        [HttpPut]
+        [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ServiceResult>> ApproveCompany(int id)
+        {
+            var response = await _companyService.ApproveRequest(id);
+            return Ok(response);
+        }
+
+        [HttpPut]
+        [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ServiceResult>> RejectCompany(int id)
+        {
+            var response = await _companyService.RejectRequest(id);
+            return Ok(response);
+        }
     }
 }
