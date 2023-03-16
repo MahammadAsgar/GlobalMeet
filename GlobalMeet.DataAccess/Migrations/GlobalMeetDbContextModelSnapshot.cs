@@ -61,7 +61,7 @@ namespace GlobalMeet.DataAccess.Migrations
                     b.HasIndex("CompanyId")
                         .IsUnique();
 
-                    b.ToTable("Abouts");
+                    b.ToTable("Abouts", (string)null);
                 });
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.Blog", b =>
@@ -102,7 +102,7 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.HasIndex("CompanyId");
 
-                    b.ToTable("Blogs");
+                    b.ToTable("Blogs", (string)null);
                 });
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.Category", b =>
@@ -134,7 +134,7 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.Company", b =>
@@ -175,7 +175,7 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.HasIndex("CompanyCategoryId");
 
-                    b.ToTable("Companies");
+                    b.ToTable("Companies", (string)null);
                 });
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.CompanyCategory", b =>
@@ -211,7 +211,7 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CompanyCategories");
+                    b.ToTable("CompanyCategories", (string)null);
                 });
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.File", b =>
@@ -248,7 +248,7 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Files");
+                    b.ToTable("Files", (string)null);
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("File");
                 });
@@ -316,7 +316,7 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("MeetDates");
+                    b.ToTable("MeetDates", (string)null);
                 });
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.MeetType", b =>
@@ -345,7 +345,7 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MeetTypes");
+                    b.ToTable("MeetTypes", (string)null);
                 });
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.Order", b =>
@@ -388,7 +388,7 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.HasIndex("MeetDateId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.Status", b =>
@@ -420,7 +420,7 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Statuses");
+                    b.ToTable("Statuses", (string)null);
                 });
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.User.AppRole", b =>
