@@ -67,7 +67,7 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             return new ServiceResult(false);
         }
          
-        public async Task<ServiceResult>  AppruveRequest(int id)
+        public async Task<ServiceResult>  ApproveRequest(int id)
         {
             var company= await _companyRepository.GetCompany(id);
             if (company!=null)
