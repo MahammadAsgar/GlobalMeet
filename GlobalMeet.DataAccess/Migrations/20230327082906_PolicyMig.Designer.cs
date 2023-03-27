@@ -4,6 +4,7 @@ using GlobalMeet.DataAccess.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GlobalMeet.DataAccess.Migrations
 {
     [DbContext(typeof(GlobalMeetDbContext))]
-    partial class GlobalMeetDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230327082906_PolicyMig")]
+    partial class PolicyMig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -397,35 +399,6 @@ namespace GlobalMeet.DataAccess.Migrations
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.PolicyType", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime?>("EditDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("EditUserId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("RegDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("RegUserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("PolicyTypes");
-                });
-
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.PrivacyPolicy", b =>
                 {
                     b.Property<int>("Id")
@@ -440,7 +413,7 @@ namespace GlobalMeet.DataAccess.Migrations
                     b.Property<int?>("EditUserId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PolicyTypeId")
+                    b.Property<int>("PolicyType")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("RegDate")
@@ -454,8 +427,6 @@ namespace GlobalMeet.DataAccess.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("PolicyTypeId");
 
                     b.ToTable("PrivacyPolicies");
                 });
@@ -821,17 +792,6 @@ namespace GlobalMeet.DataAccess.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("MeetDate");
-                });
-
-            modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.PrivacyPolicy", b =>
-                {
-                    b.HasOne("GlobalMeet.DataAccess.Entities.Main.PolicyType", "PolicyType")
-                        .WithMany()
-                        .HasForeignKey("PolicyTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PolicyType");
                 });
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.User.AppUser", b =>

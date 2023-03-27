@@ -32,7 +32,7 @@ namespace GlobalMeet.WebApi.Controllers
         [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpPut]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ServiceResult>> UpdateCategory([FromForm] AddCategoryDto categoryDto , int id)
+        public async Task<ActionResult<ServiceResult>> UpdateCategory([FromForm] AddCategoryDto categoryDto, int id)
         {
             var response = await _professionService.UpdateCategory(categoryDto, id);
             return Ok(response);

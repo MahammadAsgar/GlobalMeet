@@ -2,6 +2,7 @@
 using GlobalMeet.Business.Results;
 using GlobalMeet.Business.Services.Abstractions.Main;
 using GlobalMeet.Business.Services.Abstractions.User;
+using GlobalMeet.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -19,6 +20,7 @@ namespace GlobalMeet.WebApi.Controllers
             _userService = userService;
         }
 
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpPost]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> AddCompany([FromForm] AddCompanyDto companyDto)

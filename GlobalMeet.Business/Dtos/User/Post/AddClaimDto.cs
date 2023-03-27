@@ -6,8 +6,11 @@ namespace GlobalMeet.Business.Dtos.User.Post
     {
         [Required(ErrorMessage = "user id boş ola bilməz")]
         public string UserId { get; set; }
+
         [Required(ErrorMessage = "claim adı boş ola bilməz")]
+        // [Required()]
         public string ClaimName { get; set; }
+
         [Required(ErrorMessage = "claim tipi boş ola bilməz")]
         public string ClaimType { get; set; }
     }

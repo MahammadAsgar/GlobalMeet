@@ -1,8 +1,4 @@
-﻿using GlobalMeet.Business.Dtos.User.Get;
-using GlobalMeet.DataAccess.Entities.Main;
-using GlobalMeet.DataAccess.Entities.User;
-
-namespace GlobalMeet.Business.Dtos.Main.Get
+﻿namespace GlobalMeet.Business.Dtos.Main.Get
 {
     public class GetCompanyDto
     {

@@ -25,6 +25,8 @@ namespace GlobalMeet.DataAccess
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<ICompanyCategoryRepository, CompanyCategoryRepository>();
             services.AddScoped<IMeetTypeRepository, MeetTypeRepository>();
+            services.AddScoped<IPrivacyPolicyRepository, PrivacyPolicyRepository>();
+            services.AddScoped<IPolicyTypeRepository, PolicyTypeRepository>();
         }
     }
 }

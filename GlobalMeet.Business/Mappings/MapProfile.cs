@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GlobalMeet.Business.Dtos.Main;
 using GlobalMeet.Business.Dtos.Main.Get;
 using GlobalMeet.Business.Dtos.Main.Post;
 using GlobalMeet.Business.Dtos.User.Post;
@@ -46,6 +47,13 @@ namespace GlobalMeet.Business.Mappings
 
             CreateMap<MeetType, AddMeetTypeDto>().ReverseMap();
             CreateMap<MeetType, GetMeetTypeDto>().ReverseMap();
+            #endregion
+
+            #region Policy
+            CreateMap<PrivacyPolicy, AddPrivacyPolicyDto>().ReverseMap();
+            CreateMap<PrivacyPolicy, GetPrivacyPolicyDto>().ReverseMap();
+            CreateMap<PolicyType, AddPolicyTypeDto>().ReverseMap();
+            CreateMap<PolicyType, GetPolicyTypeDto>().ReverseMap();
             #endregion
         }
     }

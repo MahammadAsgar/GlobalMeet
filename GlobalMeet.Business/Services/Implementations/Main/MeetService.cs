@@ -8,7 +8,6 @@ using GlobalMeet.DataAccess.Entities.User;
 using GlobalMeet.DataAccess.Repositories.Abstractions.Main;
 using GlobalMeet.DataAccess.UnitOfWorks;
 using Microsoft.AspNetCore.Identity;
-using Org.BouncyCastle.Asn1.Cms;
 
 namespace GlobalMeet.Business.Services.Implementations.Main
 {

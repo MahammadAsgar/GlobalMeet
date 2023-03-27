@@ -1,8 +1,6 @@
 ﻿using GlobalMeet.Business.Dtos.Main.Post;
 using GlobalMeet.Business.Results;
 using GlobalMeet.Business.Services.Abstractions.Main;
-using GlobalMeet.Business.Services.Implementations.Main;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 

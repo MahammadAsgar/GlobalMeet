@@ -2,11 +2,6 @@
 using GlobalMeet.DataAccess.Entities.Main;
 using GlobalMeet.DataAccess.Repositories.Abstractions.Main;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
 {

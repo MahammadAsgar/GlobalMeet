@@ -5,7 +5,6 @@ using GlobalMeet.Business.Results;
 using GlobalMeet.Business.Services.Abstractions.Main;
 using GlobalMeet.DataAccess.Entities.Main;
 using GlobalMeet.DataAccess.Repositories.Abstractions.Main;
-using GlobalMeet.DataAccess.Repositories.Implementations.Main;
 using GlobalMeet.DataAccess.UnitOfWorks;
 
 namespace GlobalMeet.Business.Services.Implementations.Main

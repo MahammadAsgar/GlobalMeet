@@ -24,7 +24,8 @@ namespace GlobalMeet.Business
             services.AddScoped<IMeetService, MeetService>();
             services.AddScoped<IStatusService, StatusService>();
             services.AddScoped<IOrderService, OrderService>();
-            services.AddScoped<IMeetTypeService, MeetTypeService>();
+            services.AddScoped<IPolicyTypeService, PolicyTypeService>();
+            services.AddScoped<IPrivacyPolicyService, PrivacyPolicyService>();
             services.AddAutoMapper(cfg =>
             {
                 cfg.ShouldMapProperty = p => p.GetMethod.IsPublic || p.GetMethod.IsAssembly;
@@ -33,14 +34,3 @@ namespace GlobalMeet.Business
         }
     }
 }
-/*
-  services.AddScoped<IAboutRepository, AboutRepository>();
-            services.AddScoped<IAboutFileRepository, AboutFileRepository>();
-            services.AddScoped<IBlogRepository, BlogRepository>();
-            services.AddScoped<IBlogFileRepsitory, BlogFileRepository>();
-            services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<ICompanyRepository, CompanyRepository>();
-            services.AddScoped<IStatusRepository, StatusRepository>();
-            services.AddScoped<IMeetDateRepository, MeetDateRepository>();
-            services.AddScoped<IOrderRepository, OrderRepository>();
- */

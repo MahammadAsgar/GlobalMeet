@@ -1,6 +1,7 @@
 ﻿using GlobalMeet.Business.Dtos.User.Post;
 using GlobalMeet.Business.Results;
 using GlobalMeet.Business.Services.Abstractions.User;
+using GlobalMeet.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -58,6 +59,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(_userService.GetLoggedUser());
         }
 
+        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpPost]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> AddClaim([FromForm] AddClaimDto addClaimDto)

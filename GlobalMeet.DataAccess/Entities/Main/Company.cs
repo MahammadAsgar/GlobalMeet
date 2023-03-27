@@ -1,5 +1,5 @@
-﻿using GlobalMeet.DataAccess.Entities.User;
-using GlobalMeet.DataAccess.Entities.Common;
+﻿using GlobalMeet.DataAccess.Entities.Common;
+using GlobalMeet.DataAccess.Entities.User;
 
 namespace GlobalMeet.DataAccess.Entities.Main
 {
