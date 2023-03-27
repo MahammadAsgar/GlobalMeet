@@ -13,5 +13,8 @@ namespace GlobalMeet.Business.Services.Abstractions.Main
 
         Task<ServiceResult> GetArchivedOrdersByUser(int userId);
         Task<ServiceResult> GetNonJoinedOrderByUser(int userId);
+
+        Task<ServiceResult> ApproveOrder(int id);
+        Task<ServiceResult> RejectOrder(int id);
     }
 }

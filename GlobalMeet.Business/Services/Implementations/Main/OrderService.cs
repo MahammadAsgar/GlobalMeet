@@ -38,15 +38,40 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             var meet = meets.FirstOrDefault(x => x.Id == orderDto.MeetDateId);
             if (meet != null)
             {
+                order.IsApproved = false;
                 await _unitOfWork.Repository<Order>().AddAsync(order);
-                meet.StatusId = 2;
-                _unitOfWork.Repository<MeetDate>().Update(meet);
+              //  meet.StatusId = 2;
+              //  _unitOfWork.Repository<MeetDate>().Update(meet);
                 _unitOfWork.Commit();
                 return new ServiceResult(true);
             }
             return new ServiceResult(false, "meetDate not found");
         }
 
+        public async Task<ServiceResult> ApproveOrder(int id)
+        {
+            var order = await _orderRepository.GetOrder(id);
+            if (order!=null)
+            {
+                var meet = await _meetDateRepository.GetMeetDate(order.MeetDateId);
+                order.IsApproved = true;
+                meet.StatusId = 2;
+                _unitOfWork.Repository<MeetDate>().Update(meet);
+                _unitOfWork.Repository<Order>().Update(order);
+                _unitOfWork.Commit();
+                return new ServiceResult(true);
+            }
+            return new ServiceResult(false);
+        }
+        public async Task<ServiceResult> RejectOrder(int id)
+        {
+            var order = await _orderRepository.GetOrder(id);
+            if (order != null)
+            {
+                return new ServiceResult(true);
+            }
+            return new ServiceResult(false);
+        }
 
         public async Task<ServiceResult> CancelOrder(int id)
         {
@@ -64,6 +89,7 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             return new ServiceResult(false);
         }
 
+      
         public async Task<ServiceResult> GetArchivedOrdersByUser(int userId)
         {
             var orders = await _orderRepository.GetArchivedOrdersByUser(userId);
@@ -118,5 +144,7 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             }
             return new ServiceResult(false);
         }
+
+
     }
 }

@@ -16,5 +16,6 @@ namespace GlobalMeet.DataAccess.Entities.Main
         public MeetDate MeetDate { get; set; }
 
         public bool IsActive { get; set; }
+        public bool IsApproved { get; set; }
     }
 }
