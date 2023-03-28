@@ -30,6 +30,18 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
+        [CustomAuthorize("SuperAdmin", "Owner")]
+        [HttpPost]
+        [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ServiceResult>> AddWorker( int workerId)
+        {
+            var user = _userService.GetLoggedUser();
+            var response = await _companyService.AddWorker((int)user.Data, workerId);
+            return Ok(response);
+        }
+
+
+
 
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]

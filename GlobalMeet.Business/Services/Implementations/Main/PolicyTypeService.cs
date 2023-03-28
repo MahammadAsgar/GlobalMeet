@@ -6,11 +6,6 @@ using GlobalMeet.Business.Services.Abstractions.Main;
 using GlobalMeet.DataAccess.Entities.Main;
 using GlobalMeet.DataAccess.Repositories.Abstractions.Main;
 using GlobalMeet.DataAccess.UnitOfWorks;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GlobalMeet.Business.Services.Implementations.Main
 {

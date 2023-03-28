@@ -46,22 +46,21 @@ namespace GlobalMeet.Business.Services.Implementations.Main
         public async Task<ServiceResult> UserAddMeet(AddMeetDateDto meetDateDto, int userId)
         {
             var meets = await _meetDateRepository.GetMeetDates();
-            bool isTrue= meets.Any(x=>x.Day== meetDateDto.Day&&x.StartDate==meetDateDto.StartDate&&x.EndDateDate==meetDateDto.EndDateDate&&x.CategoryId==meetDateDto.CategoryId);
-            if (isTrue==false)
-            {
-                var meet = _mapper.Map<MeetDate>(meetDateDto);
-                meet.StatusId = 1;
-                meet.IsActive = true;
-                meet.StatusId = 1;
-                meet.IsActive = true;
-                meet.Joined = false;
-                var company = await _companyRepository.GetCompanyByUser(userId);
-                meet.CompanyId = company.Id;
-                await _unitOfWork.Repository<MeetDate>().AddAsync(meet);
-                _unitOfWork.Commit();
-                return new ServiceResult(true);
-            }
-            return new ServiceResult(false);
+            bool isTrue = meets.Any(x => x.Day == meetDateDto.Day && x.StartDate == meetDateDto.StartDate && x.EndDateDate == meetDateDto.EndDateDate && x.CategoryId == meetDateDto.CategoryId);
+            if (isTrue)
+                return new ServiceResult(false);
+
+            var meet = _mapper.Map<MeetDate>(meetDateDto);
+            meet.StatusId = 1;
+            meet.IsActive = true;
+            meet.StatusId = 1;
+            meet.IsActive = true;
+            meet.Joined = false;
+            var company = await _companyRepository.GetCompanyByUser(userId);
+            meet.CompanyId = company.Id;
+            await _unitOfWork.Repository<MeetDate>().AddAsync(meet);
+            _unitOfWork.Commit();
+            return new ServiceResult(true);
         }
 
 

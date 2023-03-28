@@ -39,6 +39,17 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             return new ServiceResult(true);
         }
 
+
+        public async Task<ServiceResult> AddWorker(int userId, int workerId)
+        {
+            var company = await _companyRepository.GetCompanyByUser(userId);
+            var worker= _userManager.Users.FirstOrDefaultAsync(x=>x.Id == workerId);
+            company.Blogs.Add(new Blog());
+            _unitOfWork.Repository<Company>().Update(company);
+            _unitOfWork.Commit();
+            return new ServiceResult(true);
+        }
+
         public async Task<ServiceResult> GetCompanies()
         {
             var companies = await _companyRepository.GetCompanies();

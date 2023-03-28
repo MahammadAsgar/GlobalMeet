@@ -45,9 +45,10 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             return new ServiceResult(false);
         }
 
-        public async Task<ServiceResult> GetAboutByUser(int companyId)
+        public async Task<ServiceResult> GetAboutByUser(int userId)
         {
-            var about = _aboutRepository.GetAboutByCompany(companyId);
+            var company = await _companyRepository.GetCompanyByUser(userId);
+            var about = await _aboutRepository.GetAboutByCompany(company.Id);
             if (about != null)
             {
                 var response = _mapper.Map<GetAboutDto>(about);

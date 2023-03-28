@@ -40,8 +40,8 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             {
                 order.IsApproved = false;
                 await _unitOfWork.Repository<Order>().AddAsync(order);
-              //  meet.StatusId = 2;
-              //  _unitOfWork.Repository<MeetDate>().Update(meet);
+                //  meet.StatusId = 2;
+                //  _unitOfWork.Repository<MeetDate>().Update(meet);
                 _unitOfWork.Commit();
                 return new ServiceResult(true);
             }
@@ -51,7 +51,7 @@ namespace GlobalMeet.Business.Services.Implementations.Main
         public async Task<ServiceResult> ApproveOrder(int id)
         {
             var order = await _orderRepository.GetOrder(id);
-            if (order!=null)
+            if (order != null)
             {
                 var meet = await _meetDateRepository.GetMeetDate(order.MeetDateId);
                 order.IsApproved = true;
@@ -89,7 +89,7 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             return new ServiceResult(false);
         }
 
-      
+
         public async Task<ServiceResult> GetArchivedOrdersByUser(int userId)
         {
             var orders = await _orderRepository.GetArchivedOrdersByUser(userId);

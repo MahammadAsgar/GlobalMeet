@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using GlobalMeet.Business.Dtos.Main;
 using GlobalMeet.Business.Dtos.Main.Get;
 using GlobalMeet.Business.Dtos.Main.Post;
 using GlobalMeet.Business.Dtos.User.Post;

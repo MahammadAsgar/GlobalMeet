@@ -1,6 +1,5 @@
 ﻿using GlobalMeet.Business.Dtos.Main.Post;
 using GlobalMeet.Business.Results;
-using GlobalMeet.DataAccess.Entities.Main;
 
 namespace GlobalMeet.Business.Services.Abstractions.Main
 {

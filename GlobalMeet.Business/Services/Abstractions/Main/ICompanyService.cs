@@ -10,5 +10,6 @@ namespace GlobalMeet.Business.Services.Abstractions.Main
         Task<ServiceResult> GetCompanies();
         Task<ServiceResult> RejectRequest(int id);
         Task<ServiceResult> ApproveRequest(int id);
+        Task<ServiceResult> AddWorker(int userId, int workerId);
     }
 }

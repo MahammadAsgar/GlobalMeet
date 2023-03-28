@@ -3,9 +3,9 @@
 
 namespace GlobalMeet.DataAccess.Repositories.Abstractions.Main
 {
-    public interface IPolicyTypeRepository:IGenericRepository<PolicyType>
+    public interface IPolicyTypeRepository : IGenericRepository<PolicyType>
     {
-        Task<PolicyType> GetPolicyType(int id); 
-        Task<ICollection<PolicyType>> GetPolicyTypes(); 
+        Task<PolicyType> GetPolicyType(int id);
+        Task<ICollection<PolicyType>> GetPolicyTypes();
     }
 }

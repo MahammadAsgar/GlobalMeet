@@ -72,9 +72,10 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             return new ServiceResult(false);
         }
 
-        public async Task<ServiceResult> GetBlogsByUser(int companyId)
+        public async Task<ServiceResult> GetBlogsByUser(int userId)
         {
-            var blogs = await _blogRepository.GetBlogsByCompany(companyId);
+            var company = await _companyRepository.GetCompanyByUser(userId);
+            var blogs = await _blogRepository.GetBlogsByCompany(company.Id);
             if (blogs != null)
             {
                 var response = _mapper.Map<IEnumerable<GetBlogDto>>(blogs);
