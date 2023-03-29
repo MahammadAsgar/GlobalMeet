@@ -14,6 +14,7 @@ using GlobalMeet.Infrastructure.Utilities.Security.Jwt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using System.Security.Claims;
 
 namespace GlobalMeet.Business.Services.Implementations.User
@@ -68,6 +69,15 @@ namespace GlobalMeet.Business.Services.Implementations.User
             }
         }
 
+
+        public async Task<ServiceResult> RemoveClaim(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var claim = await _userManager.GetClaimsAsync(user);
+            await _userManager.RemoveClaimAsync(user, claim.FirstOrDefault());
+            return new ServiceResult(true);
+        }
+
         public async Task<bool> EmailConfirmAsync(string email)
         {
             AppUser user = await _userManager.FindByEmailAsync(email);
@@ -105,7 +115,7 @@ namespace GlobalMeet.Business.Services.Implementations.User
             if (result != null)
             {
                 var response = _mapper.Map<AppUserDto>(result);
-                return new ServiceResult(true, response.Id);
+                return new ServiceResult(true, response.Id, "user found");
             }
             return new ServiceResult(false, "user not found");
         }

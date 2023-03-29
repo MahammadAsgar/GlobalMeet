@@ -59,7 +59,6 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(_userService.GetLoggedUser());
         }
 
-        [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpPost]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> AddClaim([FromForm] AddClaimDto addClaimDto)

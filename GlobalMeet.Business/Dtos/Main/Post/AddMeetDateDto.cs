@@ -6,6 +6,7 @@
         public DateTime? StartDate { get; set; }
         public DateTime? EndDateDate { get; set; }
         public int CategoryId { get; set; }
+        public int MeetTypeId { get; set; }
         public decimal ConsultationCost { get; set; }
     }
 }

@@ -64,7 +64,9 @@ namespace GlobalMeet.WebApi.Controllers
         }
 
 
-        [CustomAuthorize("SuperAdmin", "Owner")]
+        /// <summary>
+        //[CustomAuthorize("SuperAdmin", "Owner")]
+        /// </summary>
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetMeetDates()

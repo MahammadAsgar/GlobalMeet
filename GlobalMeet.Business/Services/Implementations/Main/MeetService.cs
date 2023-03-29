@@ -32,8 +32,6 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             var meet = _mapper.Map<MeetDate>(meetDateDto);
             meet.StatusId = 1;
             meet.IsActive = true;
-            meet.StatusId = 1;
-            meet.IsActive = true;
             meet.Joined = false;
             var company = await _companyRepository.GetCompanyByUser(userId);
             meet.CompanyId = company.Id;

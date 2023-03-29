@@ -4,39 +4,39 @@
 
 namespace GlobalMeet.DataAccess.Migrations
 {
-    public partial class blogMig : Migration
+    public partial class MeetTypeMig : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Blogs_AspNetUsers_AppUserId",
-                table: "Blogs");
+                name: "FK_MeetDates_MeetTypes_MeetTypeId",
+                table: "MeetDates");
 
             migrationBuilder.AlterColumn<int>(
-                name: "AppUserId",
-                table: "Blogs",
+                name: "MeetTypeId",
+                table: "MeetDates",
                 type: "int",
                 nullable: true,
                 oldClrType: typeof(int),
                 oldType: "int");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Blogs_AspNetUsers_AppUserId",
-                table: "Blogs",
-                column: "AppUserId",
-                principalTable: "AspNetUsers",
+                name: "FK_MeetDates_MeetTypes_MeetTypeId",
+                table: "MeetDates",
+                column: "MeetTypeId",
+                principalTable: "MeetTypes",
                 principalColumn: "Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Blogs_AspNetUsers_AppUserId",
-                table: "Blogs");
+                name: "FK_MeetDates_MeetTypes_MeetTypeId",
+                table: "MeetDates");
 
             migrationBuilder.AlterColumn<int>(
-                name: "AppUserId",
-                table: "Blogs",
+                name: "MeetTypeId",
+                table: "MeetDates",
                 type: "int",
                 nullable: false,
                 defaultValue: 0,
@@ -45,10 +45,10 @@ namespace GlobalMeet.DataAccess.Migrations
                 oldNullable: true);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Blogs_AspNetUsers_AppUserId",
-                table: "Blogs",
-                column: "AppUserId",
-                principalTable: "AspNetUsers",
+                name: "FK_MeetDates_MeetTypes_MeetTypeId",
+                table: "MeetDates",
+                column: "MeetTypeId",
+                principalTable: "MeetTypes",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }

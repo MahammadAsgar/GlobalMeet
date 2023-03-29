@@ -23,7 +23,7 @@ namespace GlobalMeet.DataAccess.Entities.Main
         public decimal? ConsultationCost { get; set; }
 
         public bool IsFree { get; set; }
-        public int MeetTypeId { get; set; }
-        public MeetType MeetType { get; set; }
+        public int? MeetTypeId { get; set; }
+        public MeetType? MeetType { get; set; }
     }
 }

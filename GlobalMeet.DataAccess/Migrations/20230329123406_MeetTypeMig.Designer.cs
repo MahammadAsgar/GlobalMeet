@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GlobalMeet.DataAccess.Migrations
 {
     [DbContext(typeof(GlobalMeetDbContext))]
-    [Migration("20230308130339_blogMig")]
-    partial class blogMig
+    [Migration("20230329123406_MeetTypeMig")]
+    partial class MeetTypeMig
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,21 +24,6 @@ namespace GlobalMeet.DataAccess.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
-            modelBuilder.Entity("AppUserProfession", b =>
-                {
-                    b.Property<int>("AppUsersId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ProfessionsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("AppUsersId", "ProfessionsId");
-
-                    b.HasIndex("ProfessionsId");
-
-                    b.ToTable("AppUserProfession");
-                });
-
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.About", b =>
                 {
                     b.Property<int>("Id")
@@ -47,7 +32,7 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AppUserId")
+                    b.Property<int>("CompanyId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -59,6 +44,9 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.Property<int?>("EditUserId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("RegDate")
                         .HasColumnType("datetime2");
@@ -72,7 +60,8 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("CompanyId")
+                        .IsUnique();
 
                     b.ToTable("Abouts");
                 });
@@ -85,7 +74,7 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AppUserId")
+                    b.Property<int?>("CompanyId")
                         .HasColumnType("int");
 
                     b.Property<string>("Description")
@@ -97,6 +86,9 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.Property<int?>("EditUserId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("RegDate")
                         .HasColumnType("datetime2");
@@ -110,9 +102,124 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("CompanyId");
 
                     b.ToTable("Blogs");
+                });
+
+            modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("CategoryTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EditDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("EditUserId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("RegDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RegUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+                });
+
+            modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.Company", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CompanyCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EditDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("EditUserId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RegDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RegUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TempId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CompanyCategoryId");
+
+                    b.ToTable("Companies");
+                });
+
+            modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.CompanyCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("EditDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("EditUserId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("RegDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RegUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CompanyCategories");
                 });
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.File", b =>
@@ -162,8 +269,14 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("AppUserId")
+                    b.Property<int?>("CategoryId")
                         .HasColumnType("int");
+
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal?>("ConsultationCost")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime>("Day")
                         .HasColumnType("datetime2");
@@ -180,8 +293,14 @@ namespace GlobalMeet.DataAccess.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<bool>("IsFree")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("Joined")
                         .HasColumnType("bit");
+
+                    b.Property<int?>("MeetTypeId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("RegDate")
                         .HasColumnType("datetime2");
@@ -197,11 +316,44 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AppUserId");
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("MeetTypeId");
 
                     b.HasIndex("StatusId");
 
                     b.ToTable("MeetDates");
+                });
+
+            modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.MeetType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("EditDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("EditUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("RegDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RegUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("TypeTitle")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MeetTypes");
                 });
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.Order", b =>
@@ -215,11 +367,20 @@ namespace GlobalMeet.DataAccess.Migrations
                     b.Property<int>("AppUserId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime?>("EditDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("EditUserId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsApproved")
+                        .HasColumnType("bit");
 
                     b.Property<int>("MeetDateId")
                         .HasColumnType("int");
@@ -234,12 +395,14 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.HasIndex("AppUserId");
 
+                    b.HasIndex("CompanyId");
+
                     b.HasIndex("MeetDateId");
 
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.Profession", b =>
+            modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.PolicyType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -253,9 +416,37 @@ namespace GlobalMeet.DataAccess.Migrations
                     b.Property<int?>("EditUserId")
                         .HasColumnType("int");
 
-                    b.Property<string>("ProfessionTitle")
+                    b.Property<DateTime>("RegDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RegUserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PolicyTypes");
+                });
+
+            modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.PrivacyPolicy", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime?>("EditDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("EditUserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PolicyTypeId")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("RegDate")
                         .HasColumnType("datetime2");
@@ -263,9 +454,15 @@ namespace GlobalMeet.DataAccess.Migrations
                     b.Property<int>("RegUserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Terms")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.ToTable("Professions");
+                    b.HasIndex("PolicyTypeId");
+
+                    b.ToTable("PrivacyPolicies");
                 });
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.Status", b =>
@@ -281,6 +478,9 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.Property<int?>("EditUserId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("RegDate")
                         .HasColumnType("datetime2");
@@ -338,24 +538,18 @@ namespace GlobalMeet.DataAccess.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<int?>("CompanyId")
+                        .HasColumnType("int");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("ConsultationCost")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<int?>("Experience")
-                        .HasColumnType("int");
-
-                    b.Property<bool?>("IsFree")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
@@ -400,6 +594,8 @@ namespace GlobalMeet.DataAccess.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CompanyId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -543,44 +739,50 @@ namespace GlobalMeet.DataAccess.Migrations
                     b.HasDiscriminator().HasValue("BlogFile");
                 });
 
-            modelBuilder.Entity("AppUserProfession", b =>
-                {
-                    b.HasOne("GlobalMeet.DataAccess.Entities.User.AppUser", null)
-                        .WithMany()
-                        .HasForeignKey("AppUsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("GlobalMeet.DataAccess.Entities.Main.Profession", null)
-                        .WithMany()
-                        .HasForeignKey("ProfessionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.About", b =>
                 {
-                    b.HasOne("GlobalMeet.DataAccess.Entities.User.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId");
+                    b.HasOne("GlobalMeet.DataAccess.Entities.Main.Company", "Company")
+                        .WithOne("About")
+                        .HasForeignKey("GlobalMeet.DataAccess.Entities.Main.About", "CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("AppUser");
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.Blog", b =>
                 {
-                    b.HasOne("GlobalMeet.DataAccess.Entities.User.AppUser", "AppUser")
-                        .WithMany()
-                        .HasForeignKey("AppUserId");
+                    b.HasOne("GlobalMeet.DataAccess.Entities.Main.Company", "Company")
+                        .WithMany("Blogs")
+                        .HasForeignKey("CompanyId");
 
-                    b.Navigation("AppUser");
+                    b.Navigation("Company");
+                });
+
+            modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.Company", b =>
+                {
+                    b.HasOne("GlobalMeet.DataAccess.Entities.Main.CompanyCategory", "CompanyCategory")
+                        .WithMany()
+                        .HasForeignKey("CompanyCategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("CompanyCategory");
                 });
 
             modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.MeetDate", b =>
                 {
-                    b.HasOne("GlobalMeet.DataAccess.Entities.User.AppUser", "AppUser")
+                    b.HasOne("GlobalMeet.DataAccess.Entities.Main.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId");
+
+                    b.HasOne("GlobalMeet.DataAccess.Entities.Main.Company", "Company")
                         .WithMany("MeetDates")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("CompanyId");
+
+                    b.HasOne("GlobalMeet.DataAccess.Entities.Main.MeetType", "MeetType")
+                        .WithMany("MeetDates")
+                        .HasForeignKey("MeetTypeId");
 
                     b.HasOne("GlobalMeet.DataAccess.Entities.Main.Status", "Status")
                         .WithMany()
@@ -588,7 +790,11 @@ namespace GlobalMeet.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AppUser");
+                    b.Navigation("Category");
+
+                    b.Navigation("Company");
+
+                    b.Navigation("MeetType");
 
                     b.Navigation("Status");
                 });
@@ -601,6 +807,12 @@ namespace GlobalMeet.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("GlobalMeet.DataAccess.Entities.Main.Company", "Company")
+                        .WithMany()
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("GlobalMeet.DataAccess.Entities.Main.MeetDate", "MeetDate")
                         .WithMany()
                         .HasForeignKey("MeetDateId")
@@ -609,7 +821,29 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.Navigation("AppUser");
 
+                    b.Navigation("Company");
+
                     b.Navigation("MeetDate");
+                });
+
+            modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.PrivacyPolicy", b =>
+                {
+                    b.HasOne("GlobalMeet.DataAccess.Entities.Main.PolicyType", "PolicyType")
+                        .WithMany()
+                        .HasForeignKey("PolicyTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PolicyType");
+                });
+
+            modelBuilder.Entity("GlobalMeet.DataAccess.Entities.User.AppUser", b =>
+                {
+                    b.HasOne("GlobalMeet.DataAccess.Entities.Main.Company", "Company")
+                        .WithMany("AppUsers")
+                        .HasForeignKey("CompanyId");
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -695,7 +929,19 @@ namespace GlobalMeet.DataAccess.Migrations
                     b.Navigation("BlogFiles");
                 });
 
-            modelBuilder.Entity("GlobalMeet.DataAccess.Entities.User.AppUser", b =>
+            modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.Company", b =>
+                {
+                    b.Navigation("About")
+                        .IsRequired();
+
+                    b.Navigation("AppUsers");
+
+                    b.Navigation("Blogs");
+
+                    b.Navigation("MeetDates");
+                });
+
+            modelBuilder.Entity("GlobalMeet.DataAccess.Entities.Main.MeetType", b =>
                 {
                     b.Navigation("MeetDates");
                 });

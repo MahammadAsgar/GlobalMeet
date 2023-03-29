@@ -297,7 +297,7 @@ namespace GlobalMeet.DataAccess.Migrations
                     b.Property<bool>("Joined")
                         .HasColumnType("bit");
 
-                    b.Property<int>("MeetTypeId")
+                    b.Property<int?>("MeetTypeId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("RegDate")
@@ -780,9 +780,7 @@ namespace GlobalMeet.DataAccess.Migrations
 
                     b.HasOne("GlobalMeet.DataAccess.Entities.Main.MeetType", "MeetType")
                         .WithMany("MeetDates")
-                        .HasForeignKey("MeetTypeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("MeetTypeId");
 
                     b.HasOne("GlobalMeet.DataAccess.Entities.Main.Status", "Status")
                         .WithMany()

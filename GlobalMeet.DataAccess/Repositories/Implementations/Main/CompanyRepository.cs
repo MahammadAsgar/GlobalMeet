@@ -38,7 +38,7 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
                 .Include(x => x.About)
                 .Include(x => x.Blogs)
                 .Include(x => x.MeetDates)
-                .Where(x => x.AppUsers.FirstOrDefault().Id == userId)
+                .Where(x => x.AppUsers.Any(x => x.Id == userId))
                 .FirstOrDefaultAsync();
         }
     }

@@ -20,5 +20,6 @@ namespace GlobalMeet.Business.Services.Abstractions.User
         Task<bool> VerifyConfirmAsync(string userName, string confirmToken);
 
         Task<ServiceResult> GetUserByCompany(int companyId);
+        Task<ServiceResult> RemoveClaim(string userId);
     }
 }
