@@ -98,6 +98,18 @@ namespace GlobalMeet.Business.Services.Implementations.User
             }
         }
 
+
+        public async Task<ServiceResult> GetUserByCompany(int companyId)
+        {
+            var result = await _userManager.Users.FirstOrDefaultAsync(x => x.CompanyId == companyId);
+            if (result != null)
+            {
+                var response = _mapper.Map<AppUserDto>(result);
+                return new ServiceResult(true, response.Id);
+            }
+            return new ServiceResult(false, "user not found");
+        }
+
         public async Task<ServiceResult> GetUser(int userId)
         {
             try

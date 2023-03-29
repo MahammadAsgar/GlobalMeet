@@ -44,7 +44,8 @@ namespace GlobalMeet.Business.Services.Implementations.Main
         {
             var company = await _companyRepository.GetCompanyByUser(userId);
             var worker= _userManager.Users.FirstOrDefaultAsync(x=>x.Id == workerId);
-            company.Blogs.Add(new Blog());
+            company.AppUsers=new List<AppUser>();
+            company.AppUsers.Add(worker.Result);
             _unitOfWork.Repository<Company>().Update(company);
             _unitOfWork.Commit();
             return new ServiceResult(true);

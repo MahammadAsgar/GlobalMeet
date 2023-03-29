@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using GlobalMeet.DataAccess.Entities.Main;
+using Microsoft.AspNetCore.Identity;
 
 
 namespace GlobalMeet.DataAccess.Entities.User
@@ -8,6 +9,8 @@ namespace GlobalMeet.DataAccess.Entities.User
         public string Name { get; set; }
         public string Surname { get; set; }
 
+        public int? CompanyId { get; set; }
+        public Company? Company { get; set; }
         //admin
         // public int? Experience { get; set; }
         // public bool? IsFree { get; set; }

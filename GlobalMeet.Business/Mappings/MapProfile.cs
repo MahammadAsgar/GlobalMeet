@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using GlobalMeet.Business.Dtos.Main.Get;
 using GlobalMeet.Business.Dtos.Main.Post;
+using GlobalMeet.Business.Dtos.User.Get;
 using GlobalMeet.Business.Dtos.User.Post;
 using GlobalMeet.DataAccess.Entities.Main;
 using GlobalMeet.DataAccess.Entities.User;
@@ -14,6 +15,7 @@ namespace GlobalMeet.Business.Mappings
         {
             #region User
             CreateMap<AppUser, RegisterUserDto>().ReverseMap();
+            CreateMap<AppUser, AppUserDto>().ReverseMap();
             #endregion
 
             #region Main

@@ -18,5 +18,7 @@ namespace GlobalMeet.Business.Services.Abstractions.User
         Task<bool> UpdatePassword(string userName, string resetToken, string newPassword);
         Task<bool> EmailConfirmAsync(string email);
         Task<bool> VerifyConfirmAsync(string userName, string confirmToken);
+
+        Task<ServiceResult> GetUserByCompany(int companyId);
     }
 }

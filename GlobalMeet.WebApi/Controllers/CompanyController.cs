@@ -1,4 +1,5 @@
 ﻿using GlobalMeet.Business.Dtos.Main.Post;
+using GlobalMeet.Business.Dtos.User.Post;
 using GlobalMeet.Business.Results;
 using GlobalMeet.Business.Services.Abstractions.Main;
 using GlobalMeet.Business.Services.Abstractions.User;
@@ -20,7 +21,7 @@ namespace GlobalMeet.WebApi.Controllers
             _userService = userService;
         }
 
-        [CustomAuthorize("SuperAdmin", "Owner")]
+        //[CustomAuthorize("SuperAdmin", "Owner")]
         [HttpPost]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> AddCompany([FromForm] AddCompanyDto companyDto)
@@ -33,11 +34,16 @@ namespace GlobalMeet.WebApi.Controllers
         [CustomAuthorize("SuperAdmin", "Owner")]
         [HttpPost]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
-        public async Task<ActionResult<ServiceResult>> AddWorker( int workerId)
+        public async Task<ActionResult<ServiceResult>> AddWorker(int workerId)
         {
             var user = _userService.GetLoggedUser();
             var response = await _companyService.AddWorker((int)user.Data, workerId);
-            return Ok(response);
+            if (response.Success)
+            {
+                await _userService.AddClaim(new AddClaimDto() { UserId = workerId.ToString(), ClaimName = "Moderator", ClaimType = "Moderator" });
+                return Ok(response);
+            }
+            return new BadRequestResult();
         }
 
 
@@ -66,6 +72,11 @@ namespace GlobalMeet.WebApi.Controllers
         public async Task<ActionResult<ServiceResult>> ApproveCompany(int id)
         {
             var response = await _companyService.ApproveRequest(id);
+            if (response.Success)
+            {
+                var user = await _userService.GetUserByCompany(id);
+                await _userService.AddClaim(new AddClaimDto() { UserId = user.Data.ToString(), ClaimName = "Owner", ClaimType = "Owner" });
+            }
             return Ok(response);
         }
 
