@@ -14,7 +14,6 @@ using GlobalMeet.Infrastructure.Utilities.Security.Jwt;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 using System.Security.Claims;
 
 namespace GlobalMeet.Business.Services.Implementations.User
@@ -74,8 +73,45 @@ namespace GlobalMeet.Business.Services.Implementations.User
         {
             var user = await _userManager.FindByIdAsync(userId);
             var claim = await _userManager.GetClaimsAsync(user);
-            await _userManager.RemoveClaimAsync(user, claim.FirstOrDefault());
+            await _userManager.RemoveClaimAsync(user, claim.LastOrDefault());
             return new ServiceResult(true);
+        }
+
+
+        public async Task<ServiceResult> DeleteUser(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                return new ServiceResult(true);
+            }
+            return new ServiceResult(false);
+        }
+
+
+        public async Task<ServiceResult> DeActiveUser(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user!=null)
+            {
+                user.IsActive = false;
+                await _userManager.UpdateAsync(user);
+                return new ServiceResult(true);
+            }
+            return new ServiceResult(false);
+        }
+
+        public async Task<ServiceResult> ActivateUser(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user != null && user.IsActive == false)
+            {
+                user.IsActive = true;
+                await _userManager.UpdateAsync(user);
+                return new ServiceResult(true);
+            }
+            return new ServiceResult(false);
         }
 
         public async Task<bool> EmailConfirmAsync(string email)
@@ -160,6 +196,27 @@ namespace GlobalMeet.Business.Services.Implementations.User
             }
         }
 
+        public async Task<ServiceResult> GetActiveUsers()
+        {
+            try
+            {
+                var users = await _userManager.Users.Where(x => x.IsActive == true).ToListAsync();
+
+                if (users != null)
+                {
+                    var response = _mapper.Map<IEnumerable<AppUser>>(users);
+                    return new ServiceResult(true, response);
+                }
+
+                return new ServiceResult(false, "user not found");
+            }
+            catch (Exception ex)
+            {
+                return new ServiceResult(false, ex.Message);
+            }
+        }
+
+
         public async Task<ServiceResult> LogIn(LoginUserDto loginUser)
         {
             try
@@ -168,29 +225,32 @@ namespace GlobalMeet.Business.Services.Implementations.User
 
                 if (user == null)
                     return new ServiceResult(false, "usernotfound");
-
-                var result = await _signInManager.PasswordSignInAsync(user, loginUser.Password, true, false);
-                var claims = await _userManager.GetClaimsAsync(user);
-
-
-                var token = _tokenHelper.CreateToken(_mapper.Map<AppUser>(user), claims);
-                if (!result.Succeeded)
+                if (user.IsActive == true)
                 {
+                    var result = await _signInManager.PasswordSignInAsync(user, loginUser.Password, true, false);
+                    var claims = await _userManager.GetClaimsAsync(user);
 
-                    return new ServiceResult(false, "usernotfound");
+
+                    var token = _tokenHelper.CreateToken(_mapper.Map<AppUser>(user), claims);
+                    if (!result.Succeeded)
+                    {
+
+                        return new ServiceResult(false, "usernotfound");
+                    }
+                    if (user.EmailConfirmed == false)
+                        return new ServiceResult(true, "emailnotverify");
+                    var detail = new UserSessionDto
+                    {
+                        Id = user.Id,
+                        UserName = user.UserName,
+                        FirstName = user.Name,
+                        LastName = user.Surname,
+                        Email = user.Email,
+                    };
+                    _session.SetObject("userdetail", detail);
+                    return new ServiceResult(true, token, "login success");
                 }
-                if (user.EmailConfirmed == false)
-                    return new ServiceResult(true, "emailnotverify");
-                var detail = new UserSessionDto
-                {
-                    Id = user.Id,
-                    UserName = user.UserName,
-                    FirstName = user.Name,
-                    LastName = user.Surname,
-                    Email = user.Email,
-                };
-                _session.SetObject("userdetail", detail);
-                return new ServiceResult(true, token, "login success");
+                return new ServiceResult(false, "User is Deactive");
             }
             catch (Exception ex)
             {
@@ -241,6 +301,7 @@ namespace GlobalMeet.Business.Services.Implementations.User
                 if (user != null)
                     return new ServiceResult(false, "email alreadyused");
                 var requestData = _mapper.Map<AppUser>(registerUser);
+                requestData.IsActive = true;
                 IdentityResult result = await _userManager.CreateAsync(requestData, registerUser.Password);
 
                 if (result.Succeeded)
@@ -253,6 +314,18 @@ namespace GlobalMeet.Business.Services.Implementations.User
             {
                 return new ServiceResult(false, ex.Message);
             }
+        }
+
+
+        public async Task<ServiceResult> GetLastUser()
+        {
+            var user = await _userManager.Users.OrderBy(x => x.Id).LastOrDefaultAsync();
+            if (user != null)
+            {
+                var response = _mapper.Map<AppUser>(user);
+                return new ServiceResult(true, response.Id);
+            }
+            return new ServiceResult(false);
         }
 
         public async Task<bool> UpdatePassword(string userName, string resetToken, string newPassword)

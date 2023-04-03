@@ -31,7 +31,8 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             about.CompanyId = company.Id;
             await _unitOfWork.Repository<About>().AddAsync(about);
             _unitOfWork.Commit();
-            return new ServiceResult(true);
+            var response = _mapper.Map<GetAboutDto>(about);
+            return new ServiceResult(true, response.Id);
         }
 
         public async Task<ServiceResult> GetAbout(int id)

@@ -21,5 +21,11 @@ namespace GlobalMeet.Business.Services.Abstractions.User
 
         Task<ServiceResult> GetUserByCompany(int companyId);
         Task<ServiceResult> RemoveClaim(string userId);
+        Task<ServiceResult> GetLastUser();
+
+        Task<ServiceResult> DeleteUser(string userId);
+        Task<ServiceResult> DeActiveUser(string userId);
+        Task<ServiceResult> ActivateUser(string userId);
+        Task<ServiceResult> GetActiveUsers();
     }
 }

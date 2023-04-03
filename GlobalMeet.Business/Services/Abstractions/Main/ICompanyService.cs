@@ -11,5 +11,9 @@ namespace GlobalMeet.Business.Services.Abstractions.Main
         Task<ServiceResult> RejectRequest(int id);
         Task<ServiceResult> ApproveRequest(int id);
         Task<ServiceResult> AddWorker(int userId, int workerId);
+
+        Task<ServiceResult> GetActiveCompanies();
+        Task<ServiceResult> DeActiveCompany(int id);
+        Task<ServiceResult> ActivateCompany(int id);
     }
 }

@@ -15,5 +15,7 @@ namespace GlobalMeet.Business.Services.Abstractions.Main
         Task<ServiceResult> GetMeetDatesByUserStatus(int userId, int statusId);
 
         Task<ServiceResult> ChangeJoined(int userId, int id, bool joined);
+
+        Task<ServiceResult> GetTotaIncome(int userId);
     }
 }

@@ -35,7 +35,8 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             blog.CompanyId = company.Id;
             await _unitOfWork.Repository<Blog>().AddAsync(blog);
             _unitOfWork.Commit();
-            return new ServiceResult(true);
+            var response = _mapper.Map<GetBlogDto>(blog);
+            return new ServiceResult(true, response.Id);
         }
 
         public async Task<ServiceResult> DeleteBlog(AddBlogDto blogDto, int id, int userId)

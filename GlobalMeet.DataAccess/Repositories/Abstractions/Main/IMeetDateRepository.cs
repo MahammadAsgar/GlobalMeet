@@ -10,5 +10,6 @@ namespace GlobalMeet.DataAccess.Repositories.Abstractions.Main
         Task<ICollection<MeetDate>> GetMeetDates();
 
         Task<ICollection<MeetDate>> GetDatesInToday();
+        Task<decimal> GetTotaIncome(int companyId);
     }
 }

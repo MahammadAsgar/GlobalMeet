@@ -7,5 +7,6 @@ namespace GlobalMeet.DataAccess.Repositories.Abstractions.Main
         Task<Company> GetCompany(int id);
         Task<Company> GetCompanyByUser(int userId);
         Task<ICollection<Company>> GetCompanies();
+        Task<ICollection<Company>> GetActiveCompanies();
     }
 }

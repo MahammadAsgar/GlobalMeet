@@ -1,6 +1,7 @@
 ﻿using GlobalMeet.Business.Dtos.Main.Post;
 using GlobalMeet.Business.Results;
 using GlobalMeet.Business.Services.Abstractions.Main;
+using GlobalMeet.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
@@ -16,6 +17,7 @@ namespace GlobalMeet.WebApi.Controllers
             _meetTypeService = meetTypeService;
         }
 
+        [CustomAuthorize("SuperAdmin")]
         [HttpPost]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> AddMeetType([FromForm] AddMeetTypeDto meetTypeDto)
@@ -24,7 +26,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-
+        [CustomAuthorize("SuperAdmin", "Owner", "Moderator")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> MeetType(int id)
@@ -33,7 +35,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-
+        [CustomAuthorize("SuperAdmin", "Owner", "Moderator", "User")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetMeetTypes()

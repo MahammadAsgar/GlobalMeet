@@ -11,6 +11,7 @@ namespace GlobalMeet.DataAccess.Entities.User
 
         public int? CompanyId { get; set; }
         public Company? Company { get; set; }
+        public bool IsActive { get; set; }
         //admin
         // public int? Experience { get; set; }
         // public bool? IsFree { get; set; }

@@ -14,10 +14,12 @@ namespace GlobalMeet.WebApi.Controllers
     {
         private readonly IBlogService _blogService;
         private readonly IUserService _userService;
-        public BlogController(IBlogService blogService, IUserService userService)
+        private readonly IBlogFileService _blogFileService;
+        public BlogController(IBlogService blogService, IUserService userService, IBlogFileService blogFileService)
         {
             _blogService = blogService;
             _userService = userService;
+            _blogFileService = blogFileService;
         }
 
         [CustomAuthorize("SuperAdmin", "Owner")]
@@ -27,6 +29,11 @@ namespace GlobalMeet.WebApi.Controllers
         {
             var user = _userService.GetLoggedUser();
             var response = await _blogService.AddBlog(blogDto, (int)user.Data);
+            if (response.Success)
+            {
+                blogDto.Files = Request.Form.Files;
+                await _blogFileService.AddRangeAsync(blogDto, (int)response.Data);
+            }
             return Ok(response);
         }
 

@@ -21,6 +21,17 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
                 .ToListAsync();
         }
 
+        public async Task<ICollection<Company>> GetActiveCompanies()
+        {
+            return await GetAsQueryable()
+                .Include(x => x.CompanyCategory)
+                .Include(x => x.About)
+                .Include(x => x.Blogs)
+                .Include(x => x.MeetDates)
+                .Where(x => x.IsActive == true)
+                .ToListAsync();
+        }
+
         public async Task<Company> GetCompany(int id)
         {
             return await GetAsQueryable()

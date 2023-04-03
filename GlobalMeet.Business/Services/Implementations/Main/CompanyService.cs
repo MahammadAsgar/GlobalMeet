@@ -36,15 +36,42 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             company.AppUsers.Add(user.Result);
             await _unitOfWork.Repository<Company>().AddAsync(company);
             _unitOfWork.Commit();
-            return new ServiceResult(true);
+            var response = _mapper.Map<GetCompanyDto>(company);
+            return new ServiceResult(true, response.Id);
         }
 
+
+        public async Task<ServiceResult> DeActiveCompany(int id)
+        {
+            var company = await _companyRepository.GetCompany(id);
+            if (company != null)
+            {
+                company.IsActive = false;
+                _unitOfWork.Repository<Company>().Update(company);
+                _unitOfWork.Commit();
+                return new ServiceResult(true);
+            }
+            return new ServiceResult(false);
+        }
+
+        public async Task<ServiceResult> ActivateCompany(int id)
+        {
+            var company = await _companyRepository.GetCompany(id);
+            if (company != null && company.IsActive == false)
+            {
+                company.IsActive = true;
+                _unitOfWork.Repository<Company>().Update(company);
+                _unitOfWork.Commit();
+                return new ServiceResult(true);
+            }
+            return new ServiceResult(false);
+        }
 
         public async Task<ServiceResult> AddWorker(int userId, int workerId)
         {
             var company = await _companyRepository.GetCompanyByUser(userId);
-            var worker= _userManager.Users.FirstOrDefaultAsync(x=>x.Id == workerId);
-            company.AppUsers=new List<AppUser>();
+            var worker = _userManager.Users.FirstOrDefaultAsync(x => x.Id == workerId);
+            company.AppUsers = new List<AppUser>();
             company.AppUsers.Add(worker.Result);
             _unitOfWork.Repository<Company>().Update(company);
             _unitOfWork.Commit();
@@ -54,6 +81,17 @@ namespace GlobalMeet.Business.Services.Implementations.Main
         public async Task<ServiceResult> GetCompanies()
         {
             var companies = await _companyRepository.GetCompanies();
+            if (companies != null)
+            {
+                var response = _mapper.Map<ICollection<GetCompanyDto>>(companies);
+                return new ServiceResult(true, response);
+            }
+            return new ServiceResult(false);
+        }
+
+        public async Task<ServiceResult> GetActiveCompanies()
+        {
+            var companies = await _companyRepository.GetActiveCompanies();
             if (companies != null)
             {
                 var response = _mapper.Map<ICollection<GetCompanyDto>>(companies);

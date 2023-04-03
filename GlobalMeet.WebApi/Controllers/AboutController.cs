@@ -13,26 +13,33 @@ namespace GlobalMeet.WebApi.Controllers
     public class AboutController : ControllerBase
     {
         private readonly IAboutService _aboutService;
+        private readonly IAboutFileService _aboutFileService;
         private readonly IUserService _userService;
-        public AboutController(IAboutService aboutService, IUserService userService)
+        public AboutController(IAboutService aboutService, IUserService userService, IAboutFileService aboutFileService)
         {
             _aboutService = aboutService;
             _userService = userService;
+            _aboutFileService = aboutFileService;
         }
 
 
-        [CustomAuthorize("SuperAdmin", "Owner")]
+        [CustomAuthorize("SuperAdmin", "Owner", "Moderator")]
         [HttpPost]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> AddAbout([FromForm] AddAboutDto aboutDto)
         {
             var user = _userService.GetLoggedUser();
             var response = await _aboutService.AddAbout(aboutDto, (int)user.Data);
+            if (response.Success)
+            {
+                aboutDto.Files = Request.Form.Files;
+                await _aboutFileService.AddRangeAsync(aboutDto, (int)response.Data);
+            }
             return Ok(response);
         }
 
 
-        [CustomAuthorize("SuperAdmin", "Owner")]
+        [CustomAuthorize("SuperAdmin", "Owner", "Moderator")]
         [HttpPut]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> UpdateAbout([FromForm] AddAboutDto aboutDto, int id)
@@ -41,7 +48,7 @@ namespace GlobalMeet.WebApi.Controllers
             return Ok(response);
         }
 
-        [CustomAuthorize("SuperAdmin", "Owner")]
+        [CustomAuthorize("SuperAdmin", "Owner", "Moderator")]
         [HttpGet]
         [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
         public async Task<ActionResult<ServiceResult>> GetAbout(int id)

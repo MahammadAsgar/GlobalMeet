@@ -19,12 +19,20 @@ namespace GlobalMeet.DataAccess.Repositories.Implementations.Main
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
+        public async Task<decimal> GetTotaIncome(int companyId)
+        {
+            var meets = await GetAsQueryable()
+                .Where(x => x.CompanyId == companyId && x.StatusId == 2)
+                .ToListAsync();
+            return meets.Sum(x => x.ConsultationCost).Value;
+        }
+
         public async Task<ICollection<MeetDate>> GetMeetDatesByCompany(int companyId)
         {
             return await GetAsQueryable()
                 .Include(x => x.Status)
                 .Include(x => x.Category)
-                //.Where(x => x.CategoryId == companyId)
+                .Where(x => x.CategoryId == companyId)
                 .ToListAsync();
         }
 

@@ -20,12 +20,11 @@ namespace GlobalMeet.DataAccess.Context
         public DbSet<MeetDate> MeetDates { get; set; }
         public DbSet<Status> Statuses { get; set; }
         public DbSet<Category> Categories { get; set; }
+        //public DbSet<CompanyFile> CompanyFiles { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Company> Companies { get; set; }
         public DbSet<MeetType> MeetTypes { get; set; }
         public DbSet<CompanyCategory> CompanyCategories { get; set; }
-
-
         public DbSet<PrivacyPolicy> PrivacyPolicies { get; set; }
         public DbSet<PolicyType> PolicyTypes { get; set; }
     }

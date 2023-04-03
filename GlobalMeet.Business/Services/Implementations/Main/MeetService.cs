@@ -61,6 +61,10 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             return new ServiceResult(true);
         }
 
+        //public Task<ServiceResult> TotalPrice(int companyId)
+        //{
+
+        //}
 
         public async Task<ServiceResult> DeleteMeet(int id)
         {
@@ -132,6 +136,12 @@ namespace GlobalMeet.Business.Services.Implementations.Main
             return new ServiceResult(false);
         }
 
+        public async Task<ServiceResult> GetTotaIncome(int userId)
+        {
+            var company = await _companyRepository.GetCompanyByUser(userId);
+            var income = await _meetDateRepository.GetTotaIncome(company.Id);
+            return new ServiceResult(true, income);
+        }
 
         //Admin
         public async Task<ServiceResult> UpdateMeet(AddMeetDateDto meetDateDto, int id, int userId)

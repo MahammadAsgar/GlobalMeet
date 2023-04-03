@@ -94,5 +94,19 @@ namespace GlobalMeet.WebApi.Controllers
             var response = await _meetService.GetMeetDatesByCompany((int)user.Data);
             return Ok(response);
         }
+
+
+        [CustomAuthorize("SuperAdmin", "Owner", "Moderator")]
+        [HttpGet]
+        [ProducesResponseType(typeof(ServiceResult), (int)HttpStatusCode.OK)]
+        public async Task<ActionResult<ServiceResult>> GetTotaIncome()
+        {
+            var user = _userService.GetLoggedUser();
+            var response = await _meetService.GetTotaIncome((int)user.Data);
+            return Ok(response);
+        }
+
+
+
     }
 }
